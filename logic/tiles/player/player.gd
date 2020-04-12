@@ -37,7 +37,7 @@ func animate_movement(target):
 func animate_win():
 	$AnimationPlayer.play("Win")
 
-func move(input_direction):
+func move(input_direction) :
 	var target = world_pos + input_direction
 	var tile_obj = Grid.get_cell_child(target)
 	if tile_obj and tile_obj.is_pushable() and tile_obj.exist:

@@ -1,6 +1,6 @@
 extends TileMap
 
-enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR}
+enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED}
 var prev_movement = Vector2(1,0)
 
 var won = false
@@ -21,6 +21,10 @@ func _ready():
 				var scene_instance = create_scene_instance("res://logic/tiles/block/block.tscn", tile)
 			KEY:
 				var scene_instance = create_scene_instance("res://logic/tiles/key/key.tscn", tile)
+			BOMB:
+				var scene_instance = create_scene_instance("res://logic/tiles/bomb/bomb.tscn", tile)
+			WALL_CRACKED:
+				var scene_instance = create_scene_instance("res://logic/tiles/wall_cracked/wall_cracked.tscn", tile)
 	
 	for child in get_children():
 		if child.is_player():
