@@ -12,8 +12,6 @@ enum { EMPTY = -1, START = 60}
 func _ready():
 	Player = $"../Player"
 	Worlds = $"../Worlds"
-
-	print(Worlds.get_world(Vector2(2,3)))
 	
 	for tile in get_used_cells():
 		var target = get_cellv(tile)

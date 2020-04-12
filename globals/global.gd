@@ -15,4 +15,3 @@ func level_beaten(level):
 
 func level_not_beaten(level):
 	last_level = level
-	print(last_level)

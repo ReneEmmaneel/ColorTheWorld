@@ -33,7 +33,6 @@ func get_direction(v2) -> Vector2:
 # Returns true if the tile in the given direction is
 # empty, the player or a pushable object that's currently pushable
 func check_currently_pushable(direction) -> bool:
-	print("check pushable base")
 	var target = world_pos + direction
 	var tile_obj = Grid.get_cell_child(target)
 	if !tile_obj or tile_obj.is_player() or !tile_obj.exist:

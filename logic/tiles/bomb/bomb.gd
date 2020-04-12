@@ -6,7 +6,6 @@ func _ready():
 	type = BOMB
 
 func check_currently_pushable(direction) -> bool:
-	print("check pushable")
 	var target = world_pos + direction
 	var tile_obj = Grid.get_cell_child(target)
 	if !tile_obj or tile_obj.is_player() or !tile_obj.exist:
