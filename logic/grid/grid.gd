@@ -34,7 +34,7 @@ func _process(delta):
 	if won:
 		return
 	if Input.is_action_pressed("ui_cancel"):
-		var level = get_parent().level
+		var level = get_parent().get_level()
 		global.level_not_beaten(level)
 		get_tree().change_scene("res://worldMap/WorldMap.tscn")
 	if Input.is_action_pressed("ui_reset"):
@@ -64,7 +64,7 @@ func _process(delta):
 			
 				yield(t, "timeout")
 
-				var level = get_parent().level
+				var level = get_parent().get_level()
 				global.level_beaten(level)
 				get_tree().change_scene("res://worldMap/WorldMap.tscn")
 

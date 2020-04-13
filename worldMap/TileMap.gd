@@ -55,7 +55,7 @@ func _process(delta):
 		move_player(input_direction)
 
 func load_level(level):
-	get_tree().change_scene("res://levels/level" + str(level) + "/Level" + str(level) + ".tscn")
+	get_tree().change_scene("res://levels/Level" + str(level) + ".tscn")
 
 func move_camera(direction):
 	camera_pos += direction
