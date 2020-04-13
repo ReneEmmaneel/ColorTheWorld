@@ -5,6 +5,10 @@ var Player
 var Worlds
 var player_world_pos
 
+var camera_width = 16
+var camera_height = 10
+var camera_pos = Vector2(0, 0)
+
 var tiles_to_show = []
 
 enum { EMPTY = -1, START = 60}
@@ -53,6 +57,25 @@ func _process(delta):
 func load_level(level):
 	get_tree().change_scene("res://levels/level" + str(level) + "/Level" + str(level) + ".tscn")
 
+func move_camera(direction):
+	camera_pos += direction
+	var Camera = $"../Camera2D"
+	var offset = Camera.get_offset()
+	offset += direction * Vector2(64 * camera_width, 64 * camera_height)
+	Camera.set_offset(offset)
+
+func check_camera_pos():
+	#x pos starts at 1, while y pos starts at 0
+	if (player_world_pos[0] < camera_pos[0] * camera_width):
+		move_camera(Vector2(-1,0))
+	elif (player_world_pos[0] > (camera_pos[0] + 1) * camera_width - 1):
+		move_camera(Vector2(1,0))
+
+	if (player_world_pos[1] < camera_pos[1] * camera_height):
+		move_camera(Vector2(0,-1))
+	elif (player_world_pos[1] > (camera_pos[1] + 1) * camera_height - 1):
+		move_camera(Vector2(0,1))
+
 func move_player(input_direction):
 	if get_cellv(player_world_pos + input_direction) == EMPTY:
 		return
@@ -60,7 +83,9 @@ func move_player(input_direction):
 	
 	Player.position = map_to_world(player_world_pos) + cell_size / 2
 	set_process(false)
-
+	
+	check_camera_pos()
+	
 	var AnimationPlayer = $"../Player/AnimationPlayer"
 	var Tween = $"../Player/Tween"
 	var Pivot = $"../Player/Pivot"
