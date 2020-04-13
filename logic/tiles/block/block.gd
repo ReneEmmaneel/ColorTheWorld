@@ -1,44 +1,19 @@
+# block.gd
+#
+# The script for block.tscn, as well as the parent script for all pushable objects
+# It contains the code to animate the tile
+# The move function contains a base function,
+# as well as the following functions which should probably be overridden by child tiles:
+# -move_into: triggers when TILE moves into given block
+# -moved_into: triggers when TILE moves into self
+# -custom_move: triggers at the end of move function
+
 extends "res://logic/tiles/basicTiles/baseTile.gd"
 
 func _ready():
 	type = BLOCK
 	is_pushable = true
 	is_breakable = true
-
-func add_prev_position():
-	prev_positions.append([world_pos, exist])
-
-func remove_obj():
-	exist = false
-	$Pivot/PlayerSprite.hide()
-
-func readd_obj():
-	exist = true
-	$Pivot/PlayerSprite.show()
-
-func move(input_direction):
-	var target = world_pos + input_direction
-	var tile_obj = Grid.get_cell_child(target)
-
-	if tile_obj and tile_obj.exist:
-		if tile_obj.type == BOMB:
-			remove_obj()
-			tile_obj.remove_obj()
-		elif tile_obj and tile_obj.is_pushable() and tile_obj.exist:
-			tile_obj.move(input_direction)
-		
-	animate_movement(target)
-
-func back_to_prev_position():
-	if prev_positions.size() > 0:
-		if exist != prev_positions[prev_positions.size() - 1][1]:
-			if exist:
-				remove_obj()
-			else:
-				readd_obj() #this should never hit
-		animate_movement(prev_positions[prev_positions.size() - 1][0])
-		world_pos = prev_positions[prev_positions.size() - 1][0]
-		prev_positions.remove(prev_positions.size() - 1)
 
 func animate_movement(target):
 	if world_pos != target:
@@ -52,3 +27,26 @@ func animate_movement(target):
 		position = Grid.map_to_world(world_pos) + Grid.cell_size / 2
 		yield($AnimationPlayer, "animation_finished")
 		Grid.set_process(true)
+
+# move function
+func move(direction):
+	var target = world_pos + direction
+	var tile_obj = Grid.get_cell_child(target)
+
+	if tile_obj and tile_obj.exist:
+		move_into(tile_obj, direction)
+	custom_move(tile_obj, direction)
+		
+	animate_movement(target)
+
+#function that triggers when the tile is being moved towars tile_obj in the given direction
+#the standard function does nothing special, 
+#and just calls the moved_into function from the receiving tile_obj
+func move_into(tile_obj, direction):
+	tile_obj.moved_into(self, direction)
+
+func moved_into(prev_obj, direction):
+	move(direction)
+
+func custom_move(tile_obj, direction):
+	return
