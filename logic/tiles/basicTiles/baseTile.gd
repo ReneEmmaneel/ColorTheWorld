@@ -53,7 +53,7 @@ func check_currently_pushable(direction) -> bool:
 
 	if custom_currently_pushable(tile_obj, direction):
 		return true
-	elif !tile_obj or tile_obj.is_player() or !tile_obj.exist:
+	elif !tile_obj or !tile_obj.exist:
 		return true
 	elif is_breakable() and tile_obj.type == BOMB:
 		return true

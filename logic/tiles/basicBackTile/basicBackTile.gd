@@ -6,4 +6,4 @@ func _ready():
 	type = ICE
 
 func move_into(tile_obj, direction):
-	print("hey")
+	pass
