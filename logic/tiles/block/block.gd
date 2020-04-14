@@ -29,7 +29,6 @@ func animate_movement(prev_pos, target):
 
 # move function
 func move(direction):
-	print(world_pos)
 	var target = world_pos + direction
 	var tile_obj = Grid.get_cell_child(target)
 	var tile_bg_obj = Grid.get_cell_background_child(target)
@@ -38,10 +37,6 @@ func move(direction):
 		move_into(tile_obj, direction)
 	custom_move(tile_obj, direction)
 	world_pos = target
-	if tile_bg_obj and tile_bg_obj.exist and tile_bg_obj.type == ICE:
-		if check_currently_pushable(direction):
-			if !is_player():
-				move(direction)
 
 #function that triggers when the tile is being moved towars tile_obj in the given direction
 #the standard function does nothing special, 

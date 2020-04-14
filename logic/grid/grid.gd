@@ -118,6 +118,24 @@ func move_children(input_direction):
 		if child.is_player():
 			child.color_blue()
 
+# Move objects when object is on ice
+# It also checks if the target tile is filled with player,
+# in which case it should not move!
+func move_objects(input_direction):
+	var pushed = false
+	for child in get_children():
+		if !child.is_player():
+			if child.is_pushable():
+				var tile_bg_obj = get_cell_background_child(child.world_pos)
+				var target = child.world_pos + input_direction
+				var tile_obj = get_cell_child(target)
+				if tile_bg_obj and tile_bg_obj.type == ICE:
+					if !tile_obj.is_player():
+						if child.check_currently_pushable(input_direction):
+							child.move(input_direction)
+							pushed = true
+	return pushed
+
 func should_move_children_on_ice(input_direction) -> bool:
 	var on_ice = false
 	for child in get_children():
@@ -140,9 +158,16 @@ func move(input_direction):
 	for child in get_children():
 		child.add_prev_position()
 	move_children(input_direction)
-	
-	while should_move_children_on_ice(input_direction):
-		move_children(input_direction)
+
+	var cont = true
+	while cont:
+		var player_moved = should_move_children_on_ice(input_direction)
+		if player_moved:
+			move_children(input_direction)
+		var objects_moved = move_objects(input_direction)
+		print(cont)
+		print(player_moved, objects_moved)
+		cont = player_moved or objects_moved
 	
 	activate()
 	for child in get_children():
