@@ -19,7 +19,7 @@ func back_to_prev_position():
 				remove_player()
 			else:
 				make_player()
-		animate_movement(prev_positions[prev_positions.size() - 1][0])
+		animate_movement(world_pos, prev_positions[prev_positions.size() - 1][0])
 		world_pos = prev_positions[prev_positions.size() - 1][0]
 		prev_positions.remove(prev_positions.size() - 1)
 

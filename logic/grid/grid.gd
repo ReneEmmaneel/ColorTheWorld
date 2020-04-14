@@ -1,6 +1,6 @@
 extends TileMap
 
-enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED}
+enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE}
 var prev_movement = Vector2(1,0)
 
 var won = false
@@ -50,23 +50,25 @@ func _process(delta):
 		if check_move(input_direction):
 			move(input_direction)
 			if check_won():
-				won = true
-				for child in get_children():
-					if child.is_player():
-						child.animate_win()
+				win()
 
-				set_process(false)
-				var t = Timer.new()
-				t.set_wait_time(1)
-				t.set_one_shot(true)
-				self.add_child(t)
-				t.start()
-			
-				yield(t, "timeout")
+func win():
+	won = true
+	for child in get_children():
+		if child.is_player():
+			child.animate_win()
+	set_process(false)
+	var t = Timer.new()
+	t.set_wait_time(1)
+	t.set_one_shot(true)
+	self.add_child(t)
+	t.start()
 
-				var level = get_parent().get_level()
-				global.level_beaten(level)
-				get_tree().change_scene("res://worldMap/WorldMap.tscn")
+	yield(t, "timeout")
+
+	var level = get_parent().get_level()
+	global.level_beaten(level)
+	get_tree().change_scene("res://worldMap/WorldMap.tscn")
 
 func check_won():
 	for child in get_children():
@@ -91,19 +93,62 @@ func check_move(input_direction) -> bool:
 
 func get_cell_child(position):
 	for child in get_children():
-		if child.world_pos == position and child.exist:
+		if child.world_pos == position and child.exist and !child.is_background():
 			return child
 
-func move(input_direction):
+func get_cell_background_child(position):
 	for child in get_children():
-		child.add_prev_position()
-	
+		if child.world_pos == position and child.exist and child.is_background():
+			return child
+
+func activate() -> bool:
+	var activated = false
+	for child in get_children():
+		if child.is_activated():
+			child.do_when_activated()
+			child.is_activated = false
+			activated = true
+	return activated
+
+func move_children(input_direction):
 	for child in get_children():
 		if child.is_player():
 			child.move(input_direction)
 	for child in get_children():
 		if child.is_player():
 			child.color_blue()
+
+func should_move_children_on_ice(input_direction) -> bool:
+	var on_ice = false
+	for child in get_children():
+		if child.is_player():
+			var tile_bg_obj = get_cell_background_child(child.world_pos)
+			if tile_bg_obj and tile_bg_obj.type == ICE:
+				if child.is_possible_move(input_direction):
+					on_ice = true
+
+	if on_ice:
+		for child in get_children():
+			if child.is_player():
+				if !child.is_possible_move(input_direction):
+					return false
+		return true
+	else:
+		return false
+
+func move(input_direction):
+	for child in get_children():
+		child.add_prev_position()
+	move_children(input_direction)
+	
+	while should_move_children_on_ice(input_direction):
+		move_children(input_direction)
+	
+	activate()
+	for child in get_children():
+		var prev = child.prev_positions[child.prev_positions.size() - 1][0]
+		var curr = child.world_pos
+		child.animate_movement(prev, curr)
 
 func get_input_direction():
 	var curr_movement = Vector2(

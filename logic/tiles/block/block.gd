@@ -15,11 +15,10 @@ func _ready():
 	is_pushable = true
 	is_breakable = true
 
-func animate_movement(target):
-	if world_pos != target:
+func animate_movement(prev_pos, target):
+	if prev_pos != target:
 		Grid.set_process(false)
 		$AnimationPlayer.play("Walk")
-		var prev_pos = world_pos
 		world_pos = target
 		$Pivot.position = (prev_pos - target) * 64
 		$Tween.interpolate_property($Pivot, "position", (prev_pos - target) * 64, Vector2(), $AnimationPlayer.current_animation_length, Tween.TRANS_LINEAR, Tween.EASE_IN)
@@ -30,14 +29,19 @@ func animate_movement(target):
 
 # move function
 func move(direction):
+	print(world_pos)
 	var target = world_pos + direction
 	var tile_obj = Grid.get_cell_child(target)
+	var tile_bg_obj = Grid.get_cell_background_child(target)
 
 	if tile_obj and tile_obj.exist:
 		move_into(tile_obj, direction)
 	custom_move(tile_obj, direction)
-		
-	animate_movement(target)
+	world_pos = target
+	if tile_bg_obj and tile_bg_obj.exist and tile_bg_obj.type == ICE:
+		if check_currently_pushable(direction):
+			if !is_player():
+				move(direction)
 
 #function that triggers when the tile is being moved towars tile_obj in the given direction
 #the standard function does nothing special, 

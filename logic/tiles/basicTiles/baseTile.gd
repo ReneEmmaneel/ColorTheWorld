@@ -7,12 +7,14 @@
 
 extends Node2D
 
-enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED}
+enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE}
 onready var Grid = get_parent()
 var direction
 var is_pushable = false
 var is_player = false
 var is_breakable = false
+var is_background = false
+var is_activated = false
 var can_be_player = false
 var type
 var world_pos
@@ -24,6 +26,12 @@ func is_pushable() -> bool:
 
 func is_breakable() -> bool:
 	return is_breakable
+
+func is_background() -> bool:
+	return is_background
+
+func is_activated() -> bool:
+	return is_activated
 
 func is_player() -> bool:
 	return is_player
@@ -97,12 +105,12 @@ func back_to_prev_position():
 				remove_obj()
 			else:
 				readd_obj()
-		animate_movement(prev_positions[prev_positions.size() - 1][0])
+		animate_movement(world_pos, prev_positions[prev_positions.size() - 1][0])
 		world_pos = prev_positions[prev_positions.size() - 1][0]
 		prev_positions.remove(prev_positions.size() - 1)
 
 # function should be overridden if object can move
-func animate_movement(target):
+func animate_movement(prev, curr):
 	return
 
 func move(direction) -> bool:
@@ -112,6 +120,9 @@ func moved_into(prev_obj, direction):
 	return
 
 func move_into(tile_obj, direction):
+	return
+
+func do_when_activated():
 	return
 
 func _ready():
