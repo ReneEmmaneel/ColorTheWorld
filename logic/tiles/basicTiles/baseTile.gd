@@ -51,6 +51,8 @@ func check_currently_pushable(direction) -> bool:
 	var target = world_pos + direction
 	var tile_obj = Grid.get_cell_child(target)
 
+	if tile_obj and tile_obj.is_player():
+		return true
 	if custom_currently_pushable(tile_obj, direction):
 		return true
 	elif !tile_obj or !tile_obj.exist:

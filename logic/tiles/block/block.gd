@@ -16,8 +16,10 @@ func _ready():
 	is_breakable = true
 
 func animate_movement(prev_pos, target):
-	if prev_pos != target:
+	var length = target - prev_pos
+	if length.length() > 0:
 		Grid.set_process(false)
+		#$AnimationPlayer.get_animation("Walk").length = 0.2 * length.length()
 		$AnimationPlayer.play("Walk")
 		world_pos = target
 		$Pivot.position = (prev_pos - target) * 64

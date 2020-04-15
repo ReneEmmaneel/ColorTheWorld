@@ -17,7 +17,7 @@ func move_into(tile_obj, direction):
 		tile_obj.remove_obj()
 		self.remove_obj()
 	else:
-		moved_into(self, direction)
+		tile_obj.moved_into(self, direction)
 
 func moved_into(prev_obj, direction):
 	if prev_obj.is_breakable():

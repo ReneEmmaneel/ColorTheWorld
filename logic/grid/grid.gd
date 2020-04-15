@@ -65,6 +65,8 @@ func win():
 	t.start()
 
 	yield(t, "timeout")
+	
+	t.queue_free()
 
 	var level = get_parent().get_level()
 	global.level_beaten(level)
@@ -161,15 +163,16 @@ func move(input_direction):
 		child.add_prev_position()
 	move_children(input_direction)
 
+	var steps = 0
 	var cont = true
 	while cont:
+		steps = steps + 1
 		var player_moved = should_move_children_on_ice(input_direction)
 		if player_moved:
 			move_children(input_direction)
 		var objects_moved = move_objects(input_direction)
 		cont = player_moved or objects_moved
 	
-	activate()
 	for child in get_children():
 		var prev = child.prev_positions[child.prev_positions.size() - 1][0]
 		var curr = child.world_pos
