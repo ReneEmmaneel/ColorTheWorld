@@ -1,0 +1,19 @@
+[gd_scene format=2]
+
+[node name="WorldMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 640.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Label" type="Label" parent="ColorRect"]
+margin_left = 381.0
+margin_top = 127.0
+margin_right = 500.0
+margin_bottom = 190.0
+text = "COOL BEANS"
+align = 1
+valign = 1

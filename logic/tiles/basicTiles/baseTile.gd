@@ -10,6 +10,7 @@ extends Node2D
 enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE}
 onready var Grid = get_parent()
 var direction
+var is_tile = true
 var is_pushable = false
 var is_player = false
 var is_breakable = false

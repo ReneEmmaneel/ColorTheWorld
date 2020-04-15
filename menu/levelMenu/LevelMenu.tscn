@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://menu/levelMenu/LevelMenu.gd" type="Script" id=1]
+[ext_resource path="res://menu/button/MapButton.tscn" type="PackedScene" id=2]
+
+[node name="LevelMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 640.0
+color = Color( 0.121569, 0.109804, 0.141176, 0.623529 )
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = 100.0
+margin_right = 924.0
+margin_bottom = 640.0
+color = Color( 0.121569, 0.109804, 0.141176, 0.964706 )
+
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 400.0
+margin_top = 200.0
+margin_right = 624.0
+margin_bottom = 540.0
+
+[node name="MapButton" parent="Menu" instance=ExtResource( 2 )]
+margin_right = 224.0
+scene_to_load = "res://worldMap/WorldMap.tscn"
+save_level = true
