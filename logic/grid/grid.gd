@@ -40,19 +40,21 @@ func get_tile_children():
 				children.append(child)
 	return children
 
+func cancel_pressed():
+	if paused:
+		paused = false
+		remove_child(menu_instance)
+	else:
+		paused = true
+		var menu = load("res://menu/levelMenu/LevelMenu.tscn")
+		menu_instance = menu.instance()
+		add_child(menu_instance)
+
 func _process(delta):
 	if won:
 		return
 	if Input.is_action_just_pressed("ui_cancel"):
-		if paused:
-			paused = false
-			remove_child(menu_instance)
-		else:
-			paused = true
-			var menu = load("res://menu/levelMenu/LevelMenu.tscn")
-			menu_instance = menu.instance()
-			add_child(menu_instance)
-
+		cancel_pressed()
 	if !paused:
 		if Input.is_action_pressed("ui_reset"):
 			get_tree().reload_current_scene()
@@ -175,6 +177,11 @@ func should_move_children_on_ice(input_direction) -> bool:
 	else:
 		return false
 
+func update_player_sprites():
+	for child in get_tile_children():
+		if child.is_player():
+			child.change_sprite()
+
 func move(input_direction):
 	for child in get_tile_children():
 		child.add_prev_position()
@@ -189,11 +196,13 @@ func move(input_direction):
 			move_children(input_direction)
 		var objects_moved = move_objects(input_direction)
 		cont = player_moved or objects_moved
-	
+
 	for child in get_tile_children():
 		var prev = child.prev_positions[child.prev_positions.size() - 1][0]
 		var curr = child.world_pos
 		child.animate_movement(prev, curr)
+
+	update_player_sprites()
 
 func get_input_direction():
 	var curr_movement = Vector2(

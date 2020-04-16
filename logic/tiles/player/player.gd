@@ -8,6 +8,21 @@ func _ready():
 	can_be_player = true
 	type = GREY
 
+#function which checks which tile to choose
+#First get the sprite as a 4 digits binary number
+#First digit is if there is a blob to the right,
+#then up, left and down
+#Then set the playersprite to the right frame
+func change_sprite():
+	var num = 0
+	var curr = 1
+	for dir in [Vector2(1,0), Vector2(0,-1), Vector2(-1, 0), Vector2(0, 1)]:
+		var child = Grid.get_cell_child(world_pos + dir)
+		if child and child.can_be_player and child.is_player():
+			num += curr
+		curr *= 2
+	$Pivot/PlayerSprite.set_frame(num)
+
 #custom functions for prev position tracking, as the is_player status is important
 func add_prev_position():
 	prev_positions.append([world_pos, is_player])
@@ -22,16 +37,19 @@ func back_to_prev_position():
 		animate_movement(world_pos, prev_positions[prev_positions.size() - 1][0])
 		world_pos = prev_positions[prev_positions.size() - 1][0]
 		prev_positions.remove(prev_positions.size() - 1)
+	change_sprite()
 
 func make_player():
 	is_player = true
 	is_pushable = false
-	$Pivot/PlayerSprite.texture = blue_texture
+	$Pivot/PlayerSprite.play("blue")
+	$Pivot/PlayerSprite.stop()
 
 func remove_player():
 	is_player = false
 	is_pushable = true
-	$Pivot/PlayerSprite.texture = grey_texture
+	$Pivot/PlayerSprite.play("grey")
+	$Pivot/PlayerSprite.stop()
 
 #custom moved into function, when is_player == true, ignore move into
 func moved_into(prev_obj, direction):
