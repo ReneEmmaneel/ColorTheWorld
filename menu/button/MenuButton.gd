@@ -5,3 +5,6 @@ export(bool) var save_level = false
 
 func _ready():
 	pass
+
+func _on_ContinueGameButton_pressed():
+	get_tree().quit()

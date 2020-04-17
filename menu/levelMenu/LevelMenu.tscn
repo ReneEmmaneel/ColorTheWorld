@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://menu/levelMenu/LevelMenu.gd" type="Script" id=1]
 [ext_resource path="res://menu/button/ContinueLevelButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://menu/button/MapButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://fonts/Ultra/Ultra-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://menu/button/MuteButton.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -44,6 +45,11 @@ margin_right = 224.0
 margin_bottom = 120.0
 scene_to_load = "res://worldMap/WorldMap.tscn"
 save_level = true
+
+[node name="Mute" parent="Menu" instance=ExtResource( 5 )]
+margin_top = 140.0
+margin_right = 224.0
+margin_bottom = 190.0
 
 [node name="Label" type="Label" parent="."]
 margin_right = 1024.0
