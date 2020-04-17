@@ -1,32 +1,38 @@
 extends TileMap
 
-enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE}
+enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE, SNOWBALL}
 var prev_movement = Vector2(1,0)
 
 var won = false
 var paused = false
 var menu_instance
+var can_move = true
+
+func set_can_move(boolean):
+	can_move = boolean
 
 func _ready():
 	for tile in get_used_cells():
 		var target = get_cellv(tile)
 		match target:
 			WALL:
-				var scene_instance = create_scene_instance("res://logic/tiles/wall/wall.tscn", tile)
+				create_scene_instance("res://logic/tiles/wall/wall.tscn", tile)
 			DOOR:
-				var scene_instance = create_scene_instance("res://logic/tiles/door/door.tscn", tile)
+				create_scene_instance("res://logic/tiles/door/door.tscn", tile)
 			GREY, BLUE:
 				var scene_instance = create_scene_instance("res://logic/tiles/player/player.tscn", tile)
 				if target == BLUE:
 					scene_instance.make_player()
 			BLOCK:
-				var scene_instance = create_scene_instance("res://logic/tiles/block/block.tscn", tile)
+				create_scene_instance("res://logic/tiles/block/block.tscn", tile)
 			KEY:
-				var scene_instance = create_scene_instance("res://logic/tiles/key/key.tscn", tile)
+				create_scene_instance("res://logic/tiles/key/key.tscn", tile)
 			BOMB:
-				var scene_instance = create_scene_instance("res://logic/tiles/bomb/bomb.tscn", tile)
+				create_scene_instance("res://logic/tiles/bomb/bomb.tscn", tile)
 			WALL_CRACKED:
-				var scene_instance = create_scene_instance("res://logic/tiles/wall_cracked/wall_cracked.tscn", tile)
+				create_scene_instance("res://logic/tiles/wall_cracked/wall_cracked.tscn", tile)
+			SNOWBALL:
+				create_scene_instance("res://logic/tiles/snowball/snowball.tscn", tile)
 	
 	for child in get_tile_children():
 		if child.is_player():
@@ -55,21 +61,36 @@ func _process(delta):
 		return
 	if Input.is_action_just_pressed("ui_cancel"):
 		cancel_pressed()
-	if !paused:
+	if !paused and can_move:
 		if Input.is_action_pressed("ui_reset"):
 			get_tree().reload_current_scene()
 		elif Input.is_action_pressed("ui_prev"):
+			self.set_can_move(false)
 			for child in get_tile_children():
 				child.back_to_prev_position()
+				#messy workaround, this should be doable without knowing the animation timing
+			var t = Timer.new()
+			t.set_wait_time(0.2)
+			t.set_one_shot(true)
+			self.add_child(t)
+			t.start()
+			yield(t, "timeout")
+			for child in get_tile_children():
+				if child.is_player():
+					child.change_sprite()
+			self.set_can_move(true)
 		else:
 			var input_direction = get_input_direction()
 			if not input_direction:
 				return
-		
-			if check_move(input_direction):
-				move(input_direction)
-				if check_won():
-					win()
+
+			start_move(input_direction)
+
+func start_move(input_direction):
+	if check_move(input_direction):
+		move(input_direction)
+		if check_won():
+			win()
 
 func win():
 	won = true
@@ -78,7 +99,7 @@ func win():
 			child.animate_win()
 	set_process(false)
 	var t = Timer.new()
-	t.set_wait_time(1)
+	t.set_wait_time(2)
 	t.set_one_shot(true)
 	self.add_child(t)
 	t.start()
@@ -149,10 +170,17 @@ func move_objects(input_direction):
 			#if the object didn't move yet, it will not need to move
 			if child.prev_positions[child.prev_positions.size() - 1][0] != child.world_pos:
 				if child.is_pushable():
+					#check if on ice
 					var tile_bg_obj = get_cell_background_child(child.world_pos)
 					var target = child.world_pos + input_direction
 					var tile_obj = get_cell_child(target)
-					if tile_bg_obj and tile_bg_obj.type == ICE:
+					if tile_bg_obj != null and tile_bg_obj.type == ICE:
+						if !tile_obj or !tile_obj.is_player():
+							if child.check_currently_pushable(input_direction):
+								child.move(input_direction)
+								pushed = true
+					#check if snowball
+					elif child.type == SNOWBALL:
 						if !tile_obj or !tile_obj.is_player():
 							if child.check_currently_pushable(input_direction):
 								child.move(input_direction)
@@ -186,21 +214,42 @@ func move(input_direction):
 	for child in get_tile_children():
 		child.add_prev_position()
 	move_children(input_direction)
+	for child in get_tile_children():
+		child.add_animation()
 
 	var steps = 0
 	var cont = true
 	while cont:
 		steps = steps + 1
+		var objects_moved = move_objects(input_direction)
 		var player_moved = should_move_children_on_ice(input_direction)
 		if player_moved:
 			move_children(input_direction)
-		var objects_moved = move_objects(input_direction)
 		cont = player_moved or objects_moved
+		for child in get_tile_children():
+			child.add_animation()
 
 	for child in get_tile_children():
 		var prev = child.prev_positions[child.prev_positions.size() - 1][0]
 		var curr = child.world_pos
-		child.animate_movement(prev, curr)
+
+	self.set_can_move(false)
+	for i in range(steps):
+		for child in get_tile_children():
+			child.animate_step()
+
+		#messy workaround, this should be doable without knowing the animation timing
+		var t = Timer.new()
+		t.set_wait_time(0.2)
+		t.set_one_shot(true)
+		self.add_child(t)
+		t.start()
+		yield(t, "timeout")
+
+	self.set_can_move(true)
+
+	for child in get_tile_children():
+		child.empty_animation_queue()
 
 	update_player_sprites()
 

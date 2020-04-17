@@ -3,7 +3,10 @@ extends AudioStreamPlayer
 var is_playing = true
 
 func _ready():
-	self.play(0)
+	if !global.debug_start_muted:
+		self.play(0)
+	else:
+		is_playing = false
 
 func _on_AudioStreamPlayer_finished():
 	if is_playing:

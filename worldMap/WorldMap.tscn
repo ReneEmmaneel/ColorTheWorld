@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://worldMap/WorldMap.gd" type="Script" id=1]
 [ext_resource path="res://tileSet/worldMap/worldMapTileSet.png" type="Texture" id=2]
 [ext_resource path="res://worldMap/TileMap.gd" type="Script" id=3]
 [ext_resource path="res://tileSet/level/blue.png" type="Texture" id=4]
 [ext_resource path="res://worldMap/Worlds.gd" type="Script" id=5]
+[ext_resource path="res://tileSet/worldMap/tree.png" type="Texture" id=6]
 
 [sub_resource type="TileSet" id=1]
 0/name = "worldMapTileSet.png 0"
@@ -1076,6 +1077,22 @@ tracks/0/keys = {
 9/shapes = [  ]
 9/z_index = 0
 
+[sub_resource type="TileSet" id=4]
+0/name = "tree"
+0/texture = ExtResource( 6 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 64, 64 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+
 [node name="WorldMap" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -1108,3 +1125,8 @@ script = ExtResource( 5 )
 position = Vector2( 512, 320 )
 rotating = true
 current = true
+
+[node name="Decoration" type="TileMap" parent="."]
+tile_set = SubResource( 4 )
+format = 1
+tile_data = PoolIntArray( 458755, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 524289, 0, 0, 524290, 0, 0, 524291, 0, 0, 524292, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0 )

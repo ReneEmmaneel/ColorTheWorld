@@ -44,15 +44,16 @@ func show_tiles(tile):
 				show_tiles(target)
 
 func _process(delta):
-	if Input.is_action_pressed("ui_accept"):
-		var tile = get_cellv(player_world_pos)
-		if tile >= 10 and tile <= 39:
-			load_level(tile - 9)
-		if tile >= 0 and tile <= 9:
-			load_level((tile + 1) + Worlds.get_world(player_world_pos) * 10)
-	var input_direction = get_input_direction()
-	if input_direction:
-		move_player(input_direction)
+	if !get_parent().is_paused():
+		if Input.is_action_pressed("ui_accept"):
+			var tile = get_cellv(player_world_pos)
+			if tile >= 10 and tile <= 39:
+				load_level(tile - 9)
+			if tile >= 0 and tile <= 9:
+				load_level((tile + 1) + Worlds.get_world(player_world_pos) * 10)
+		var input_direction = get_input_direction()
+		if input_direction:
+			move_player(input_direction)
 
 func load_level(level):
 	get_tree().change_scene("res://levels/Level" + str(level) + ".tscn")

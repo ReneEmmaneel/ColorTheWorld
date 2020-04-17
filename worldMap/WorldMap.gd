@@ -1,7 +1,10 @@
 extends Node2D
 
 var paused = false
-var menu_instance = false
+var menu_instance = null
+
+func is_paused():
+	return paused
 
 func cancel_pressed():
 	if paused:

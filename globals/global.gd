@@ -4,6 +4,7 @@ var levels_beaten = []
 var last_level = 0
 
 var debug_show_all_levels = true
+var debug_start_muted = true
 
 func _ready():
 	pass

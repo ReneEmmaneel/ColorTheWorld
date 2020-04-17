@@ -15,10 +15,11 @@ func _ready():
 	is_pushable = true
 	is_breakable = true
 
-func animate_movement(prev_pos, target):
+func animate_movement(prev_pos, target, hide):
+	if prev_pos == null or target == null:
+		return
 	var length = target - prev_pos
 	if length.length() > 0:
-		Grid.set_process(false)
 		#$AnimationPlayer.get_animation("Walk").length = 0.2 * length.length()
 		$AnimationPlayer.play("Walk")
 		world_pos = target
@@ -27,7 +28,9 @@ func animate_movement(prev_pos, target):
 		$Tween.start()
 		position = Grid.map_to_world(world_pos) + Grid.cell_size / 2
 		yield($AnimationPlayer, "animation_finished")
-		Grid.set_process(true)
+		if hide:
+			$Pivot/PlayerSprite.hide()
+
 
 # move function
 func move(direction):

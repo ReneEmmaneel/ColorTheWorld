@@ -7,7 +7,7 @@
 
 extends Node2D
 
-enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE}
+enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE, SNOWBALL}
 onready var Grid = get_parent()
 var direction
 var is_tile = true
@@ -92,7 +92,7 @@ func get_sprite() :
 
 func remove_obj():
 	exist = false
-	get_sprite().hide()
+	add_hide_animation()
 
 func readd_obj():
 	exist = true
@@ -108,12 +108,61 @@ func back_to_prev_position():
 				remove_obj()
 			else:
 				readd_obj()
-		animate_movement(world_pos, prev_positions[prev_positions.size() - 1][0])
+		animate_movement(world_pos, prev_positions[prev_positions.size() - 1][0], false)
 		world_pos = prev_positions[prev_positions.size() - 1][0]
 		prev_positions.remove(prev_positions.size() - 1)
 
+####animations
+enum {STOP, MOVE, HIDE}
+var animation_queue = []
+
+func add_to_queue(variable):
+	animation_queue.append(variable)
+
+func get_from_queue():
+	var return_value = null
+	if animation_queue.size() > 0:
+		return_value = animation_queue[0]
+		animation_queue.remove(0)
+	return return_value
+
+func empty_animation_queue():
+	animation_queue = []
+
+func add_wait_animation(new_pos):
+	add_to_queue([STOP, new_pos, new_pos])
+
+func add_move_animation(prev_pos, new_pos):
+	add_to_queue([MOVE, prev_pos, new_pos])
+
+func add_hide_animation():
+	add_to_queue([HIDE, null, null])
+
+func add_animation():
+	var prev_pos
+	if animation_queue.size() > 0:
+		prev_pos = animation_queue[animation_queue.size() - 1][2]
+	else:
+		prev_pos = prev_positions[prev_positions.size() - 1][0]
+	var new_pos = world_pos
+	if prev_pos == new_pos:
+		add_wait_animation(new_pos)
+	else:
+		add_move_animation(prev_pos, new_pos)
+
+func animate_step():
+	var animation_step = get_from_queue()
+	while animation_step == null or animation_step[0] == HIDE:
+		get_sprite().hide()
+		animation_step = get_from_queue()
+	if animation_step != null:
+		var prev_pos = animation_step[1]
+		var new_pos = animation_step[2]
+		if prev_pos != null and new_pos != null:
+			animate_movement(prev_pos, new_pos, false)
+
 # function should be overridden if object can move
-func animate_movement(prev, curr):
+func animate_movement(prev, curr, hide):
 	return
 
 func move(direction) -> bool:
