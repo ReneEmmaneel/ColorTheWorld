@@ -14,6 +14,7 @@ func _ready():
 #then up, left and down
 #Then set the playersprite to the right frame
 func change_sprite():
+	return
 	var num = 0
 	var curr = 1
 	for dir in [Vector2(1,0), Vector2(0,-1), Vector2(-1, 0), Vector2(0, 1)]:
@@ -42,6 +43,9 @@ func back_to_prev_position():
 func make_player():
 	is_player = true
 	is_pushable = false
+	add_become_player_animation()
+
+func change_sprite_to_blue():
 	$Pivot/PlayerSprite.play("blue")
 	$Pivot/PlayerSprite.stop()
 

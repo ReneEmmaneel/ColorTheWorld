@@ -1,9 +1,8 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://logic/tiles/player/player.gd" type="Script" id=1]
 [ext_resource path="res://tileSet/level/grey.png" type="Texture" id=2]
 [ext_resource path="res://tileSet/level/blue.png" type="Texture" id=3]
-[ext_resource path="res://tileSet/blue/blue-spritesheet.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Walk"
@@ -61,111 +60,36 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="AtlasTexture" id=3]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=4]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 64, 0, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=5]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 128, 0, 64, 64 )
-
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 192, 0, 64, 64 )
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=7]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 0, 64, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=8]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 64, 64, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=9]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 128, 64, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=10]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 192, 64, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=11]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 0, 128, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=12]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 64, 128, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=13]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 128, 128, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=14]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 192, 128, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=15]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 0, 192, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=16]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 64, 192, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=17]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 128, 192, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=18]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 192, 192, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=19]
 flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 64, 64 )
 
-[sub_resource type="SpriteFrames" id=20]
+[sub_resource type="SpriteFrames" id=8]
 animations = [ {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ],
+"frames": [ SubResource( 6 ) ],
 "loop": true,
 "name": "blue",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 19 ) ],
+"frames": [ SubResource( 7 ) ],
 "loop": true,
 "name": "grey",
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=22]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.485746 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=23]
-curve = SubResource( 22 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=21]
+[sub_resource type="ParticlesMaterial" id=5]
 lifetime_randomness = 0.5
 emission_shape = 2
 emission_box_extents = Vector3( 5, 5, 1 )
@@ -178,7 +102,7 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 5.0
 scale = 10.0
-scale_curve = SubResource( 23 )
+scale_curve = SubResource( 4 )
 color = Color( 0, 0, 1, 1 )
 
 [node name="Player" type="Node2D"]
@@ -196,7 +120,7 @@ anims/Win = SubResource( 2 )
 [node name="Pivot" type="Position2D" parent="."]
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="Pivot"]
-frames = SubResource( 20 )
+frames = SubResource( 8 )
 animation = "grey"
 
 [node name="Particles2D" type="Particles2D" parent="."]
@@ -205,4 +129,4 @@ position = Vector2( 0, 0.594749 )
 emitting = false
 amount = 14
 lifetime = 3.0
-process_material = SubResource( 21 )
+process_material = SubResource( 5 )

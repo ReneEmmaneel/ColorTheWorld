@@ -23,6 +23,7 @@ func _ready():
 				var scene_instance = create_scene_instance("res://logic/tiles/player/player.tscn", tile)
 				if target == BLUE:
 					scene_instance.make_player()
+					scene_instance.change_sprite_to_blue()
 			BLOCK:
 				create_scene_instance("res://logic/tiles/block/block.tscn", tile)
 			KEY:
@@ -37,6 +38,9 @@ func _ready():
 	for child in get_tile_children():
 		if child.is_player():
 			child.color_blue()
+	for child in get_tile_children():
+		if child.is_player():
+			child.animate_step()
 
 func get_tile_children():
 	var children = []
@@ -165,26 +169,28 @@ func move_children(input_direction):
 # in which case it should not move!
 func move_objects(input_direction):
 	var pushed = false
-	for child in get_tile_children():
-		if !child.is_player():
-			#if the object didn't move yet, it will not need to move
-			if child.prev_positions[child.prev_positions.size() - 1][0] != child.world_pos:
-				if child.is_pushable():
-					#check if on ice
-					var tile_bg_obj = get_cell_background_child(child.world_pos)
-					var target = child.world_pos + input_direction
-					var tile_obj = get_cell_child(target)
-					if tile_bg_obj != null and tile_bg_obj.type == ICE:
-						if !tile_obj or !tile_obj.is_player():
-							if child.check_currently_pushable(input_direction):
-								child.move(input_direction)
-								pushed = true
-					#check if snowball
-					elif child.type == SNOWBALL:
-						if !tile_obj or !tile_obj.is_player():
-							if child.check_currently_pushable(input_direction):
-								child.move(input_direction)
-								pushed = true
+	var children = get_tile_children()
+	for child in children:
+		if !child.has_moved_in_current_sub_step():
+			if !child.is_player():
+				#if the object didn't move yet, it will not need to move
+				if child.prev_positions[child.prev_positions.size() - 1][0] != child.world_pos:
+					if child.is_pushable():
+						#check if on ice
+						var tile_bg_obj = get_cell_background_child(child.world_pos)
+						var target = child.world_pos + input_direction
+						var tile_obj = get_cell_child(target)
+						if tile_bg_obj != null and tile_bg_obj.type == ICE:
+							if !tile_obj or !tile_obj.is_player():
+								if child.check_currently_pushable(input_direction):
+									child.move(input_direction)
+									pushed = true
+						#check if snowball
+						elif child.type == SNOWBALL:
+							if !tile_obj or !tile_obj.is_player():
+								if child.check_currently_pushable(input_direction):
+									child.move(input_direction)
+									pushed = true
 	return pushed
 
 func should_move_children_on_ice(input_direction) -> bool:

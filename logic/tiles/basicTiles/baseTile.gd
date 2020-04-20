@@ -113,35 +113,63 @@ func back_to_prev_position():
 		prev_positions.remove(prev_positions.size() - 1)
 
 ####animations
-enum {STOP, MOVE, HIDE}
 var animation_queue = []
 
 func add_to_queue(variable):
 	animation_queue.append(variable)
 
-func get_from_queue():
+func get_and_remove_first_from_queue():
 	var return_value = null
 	if animation_queue.size() > 0:
 		return_value = animation_queue[0]
 		animation_queue.remove(0)
 	return return_value
 
+func get_last_from_queue():
+	if animation_queue.size() > 0:
+		return animation_queue[animation_queue.size() - 1]
+	else:
+		return null
+
 func empty_animation_queue():
 	animation_queue = []
 
+enum {STOP, MOVE, HIDE, BECOME_PLAYER}
+
+#Animation should 
+class Anim:
+	var type
+	var old_pos
+	var new_pos
+	var instant_anim = false #If true, the animation resolves instantly
+
+	func _init(type, values = [], instant_anim = false):
+		self.type = type
+		if values.size() > 0:
+			self.old_pos = values[0]
+			if values.size() > 1:
+				self.new_pos = values[1]
+			else:
+				self.new_pos = self.old_pos
+		self.instant_anim = instant_anim
+
 func add_wait_animation(new_pos):
-	add_to_queue([STOP, new_pos, new_pos])
+	add_to_queue(Anim.new(STOP, [new_pos]))
 
 func add_move_animation(prev_pos, new_pos):
-	add_to_queue([MOVE, prev_pos, new_pos])
+	add_to_queue(Anim.new(MOVE, [prev_pos, new_pos]))
 
 func add_hide_animation():
-	add_to_queue([HIDE, null, null])
+	print("hide")
+	add_to_queue(Anim.new(HIDE, [null, null], true))
+
+func add_become_player_animation():
+	add_to_queue(Anim.new(BECOME_PLAYER, [world_pos, world_pos], true))
 
 func add_animation():
 	var prev_pos
 	if animation_queue.size() > 0:
-		prev_pos = animation_queue[animation_queue.size() - 1][2]
+		prev_pos = animation_queue[animation_queue.size() - 1].new_pos
 	else:
 		prev_pos = prev_positions[prev_positions.size() - 1][0]
 	var new_pos = world_pos
@@ -150,16 +178,29 @@ func add_animation():
 	else:
 		add_move_animation(prev_pos, new_pos)
 
+func has_moved_in_current_sub_step():
+	return world_pos != get_last_from_queue().new_pos
+
 func animate_step():
-	var animation_step = get_from_queue()
-	while animation_step == null or animation_step[0] == HIDE:
-		get_sprite().hide()
-		animation_step = get_from_queue()
+	var animation_step = get_and_remove_first_from_queue()
+	if !animation_step:
+		return
+
+	while animation_step != null and animation_step.instant_anim:
+		if animation_step.type == HIDE:
+			get_sprite().hide()
+		elif animation_step.type == BECOME_PLAYER:
+			self.change_sprite_to_blue()
+		animation_step = get_and_remove_first_from_queue()
+
 	if animation_step != null:
-		var prev_pos = animation_step[1]
-		var new_pos = animation_step[2]
+		var prev_pos = animation_step.old_pos
+		var new_pos = animation_step.new_pos
 		if prev_pos != null and new_pos != null:
 			animate_movement(prev_pos, new_pos, false)
+
+func change_sprite_to_blue():
+	pass
 
 # function should be overridden if object can move
 func animate_movement(prev, curr, hide):
