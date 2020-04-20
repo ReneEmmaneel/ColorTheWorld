@@ -160,7 +160,6 @@ func add_move_animation(prev_pos, new_pos):
 	add_to_queue(Anim.new(MOVE, [prev_pos, new_pos]))
 
 func add_hide_animation():
-	print("hide")
 	add_to_queue(Anim.new(HIDE, [null, null], true))
 
 func add_become_player_animation():

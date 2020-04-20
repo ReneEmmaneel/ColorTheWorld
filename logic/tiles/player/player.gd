@@ -1,8 +1,13 @@
 extends "res://logic/tiles/block/block.gd"
 export(Texture) var grey_texture
 export(Texture) var blue_texture
+var rand_frame
 
 func _ready():
+	var PlayerSprite = $Pivot/PlayerSprite
+	var amount_sprites = PlayerSprite.frames.get_frame_count("blue")
+	rand_frame = randi() % amount_sprites
+	PlayerSprite.frame = rand_frame
 	is_pushable = true
 	is_breakable = false
 	can_be_player = true
@@ -46,14 +51,18 @@ func make_player():
 	add_become_player_animation()
 
 func change_sprite_to_blue():
-	$Pivot/PlayerSprite.play("blue")
-	$Pivot/PlayerSprite.stop()
+	var PlayerSprite = $Pivot/PlayerSprite
+	PlayerSprite.play("blue")
+	PlayerSprite.frame = rand_frame
+	PlayerSprite.stop()
 
 func remove_player():
 	is_player = false
 	is_pushable = true
-	$Pivot/PlayerSprite.play("grey")
-	$Pivot/PlayerSprite.stop()
+	var PlayerSprite = $Pivot/PlayerSprite
+	PlayerSprite.play("grey")
+	PlayerSprite.frame = rand_frame
+	PlayerSprite.stop()
 
 #custom moved into function, when is_player == true, ignore move into
 func moved_into(prev_obj, direction):
@@ -63,6 +72,10 @@ func moved_into(prev_obj, direction):
 #play win animation
 func animate_win():
 	$AnimationPlayer.play("Win")
+
+#probably should do something for the custom player animation
+func custom_animate_movement():
+	pass
 
 #color all adjacent blobs blue
 func color_blue():

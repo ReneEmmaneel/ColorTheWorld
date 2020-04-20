@@ -16,6 +16,7 @@ func _ready():
 	is_breakable = true
 
 func animate_movement(prev_pos, target, hide):
+	custom_animate_movement()
 	if prev_pos == null or target == null:
 		return
 	var length = target - prev_pos
@@ -31,6 +32,8 @@ func animate_movement(prev_pos, target, hide):
 		if hide:
 			$Pivot/PlayerSprite.hide()
 
+func custom_animate_movement():
+	pass
 
 # move function
 func move(direction):

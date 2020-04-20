@@ -33,7 +33,6 @@ func _ready():
 
 		#Start unveiling all playable levels starting at the START tile
 		if target == START:
-			print(tile)
 			if !global.debug_show_all_levels:
 				show_tiles(tile) #should always call in non-debug mode
 
