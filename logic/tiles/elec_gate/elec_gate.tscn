@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://tileSet/level/elec_gate_open.png" type="Texture" id=1]
+[ext_resource path="res://tileSet/level/elec_gate_closed.png" type="Texture" id=2]
+[ext_resource path="res://logic/tiles/elec_gate/elec_gate.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "open",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "closed",
+"speed": 5.0
+} ]
+
+[node name="Elec_gate" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "closed"
+playing = true

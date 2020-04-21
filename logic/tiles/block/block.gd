@@ -39,7 +39,6 @@ func custom_animate_movement():
 func move(direction):
 	var target = world_pos + direction
 	var tile_obj = Grid.get_cell_child(target)
-	var tile_bg_obj = Grid.get_cell_background_child(target)
 
 	if tile_obj and tile_obj.exist:
 		move_into(tile_obj, direction)

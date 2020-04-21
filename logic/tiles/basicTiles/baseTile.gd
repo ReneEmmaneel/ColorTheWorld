@@ -7,7 +7,7 @@
 
 extends Node2D
 
-enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE, SNOWBALL}
+enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE, SNOWBALL, PRESSURE_PLATE}
 onready var Grid = get_parent()
 var direction
 var is_tile = true

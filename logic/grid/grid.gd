@@ -1,6 +1,6 @@
 extends TileMap
 
-enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE, SNOWBALL}
+enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE, SNOWBALL, PRESSURE_PLATE, ELEC_GATE}
 var prev_movement = Vector2(1,0)
 
 var won = false
@@ -34,7 +34,9 @@ func _ready():
 				create_scene_instance("res://logic/tiles/wall_cracked/wall_cracked.tscn", tile)
 			SNOWBALL:
 				create_scene_instance("res://logic/tiles/snowball/snowball.tscn", tile)
-	
+			global.Tiles.ELEC_GATE:
+				create_scene_instance("res://logic/tiles/elec_gate/elec_gate.tscn", tile)
+
 	for child in get_tile_children():
 		if child.is_player():
 			child.color_blue()
@@ -60,7 +62,7 @@ func cancel_pressed():
 		menu_instance = menu.instance()
 		add_child(menu_instance)
 
-func _process(delta):
+func _process(_delta):
 	if won:
 		return
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -143,9 +145,9 @@ func get_cell_child(position):
 			return child
 
 func get_cell_background_child(position):
-	for child in get_tile_children():
-		if child.world_pos == position and child.exist and child.is_background():
-			return child
+	var Background = $"../BackLayer"
+	if Background.get_cellv(position) == ICE:
+		return ICE
 
 func activate() -> bool:
 	var activated = false
@@ -177,10 +179,10 @@ func move_objects(input_direction):
 				if child.prev_positions[child.prev_positions.size() - 1][0] != child.world_pos:
 					if child.is_pushable():
 						#check if on ice
-						var tile_bg_obj = get_cell_background_child(child.world_pos)
+						var tile_bg_obj_type = get_cell_background_child(child.world_pos)
 						var target = child.world_pos + input_direction
 						var tile_obj = get_cell_child(target)
-						if tile_bg_obj != null and tile_bg_obj.type == ICE:
+						if tile_bg_obj_type == ICE:
 							if !tile_obj or !tile_obj.is_player():
 								if child.check_currently_pushable(input_direction):
 									child.move(input_direction)
@@ -197,8 +199,8 @@ func should_move_children_on_ice(input_direction) -> bool:
 	var on_ice = false
 	for child in get_tile_children():
 		if child.is_player():
-			var tile_bg_obj = get_cell_background_child(child.world_pos)
-			if tile_bg_obj and tile_bg_obj.type == ICE:
+			var tile_bg_obj_type = get_cell_background_child(child.world_pos)
+			if tile_bg_obj_type == ICE:
 				if child.is_possible_move(input_direction):
 					on_ice = true
 
@@ -216,12 +218,60 @@ func update_player_sprites():
 		if child.is_player():
 			child.change_sprite()
 
+func activate_wires_recursive(tile):
+	var Wire = $"../Wire"
+	for dir in [Vector2(1,0), Vector2(0,1), Vector2(-1, 0), Vector2(0, -1)]:
+		var target = tile + dir
+		if Wire.get_cellv(target) == Wire.WIRE_OFF:
+			Wire.set_cellv(target, Wire.WIRE_ON)
+			Wire.update_bitmask_area(target)
+			activate_wires_recursive(target)
+		for cell in get_children():
+			if cell && cell.get("type") && cell.type == global.Tiles.ELEC_GATE:
+				if cell.world_pos == target:
+					cell.close_gate()
+
+#Update the wires in the current substep
+#Returns a list of the following lists, in the following order:
+#	A list of all wire tiles and their corresponding sprites in the wire layer
+#	A list of all elec gate child objs and their corresponding open status 
+func update_wires():
+	var Wire = $"../Wire"
+	var BackLayer = $"../BackLayer"
+	Wire.deactivate_wires()
+
+	for child in get_tile_children():
+		if child.type == ELEC_GATE:
+			child.open_gate()
+	for child in get_tile_children():
+		var tile = child.world_pos
+		var bgtile = BackLayer.get_cellv(tile)
+		if bgtile == PRESSURE_PLATE:
+			activate_wires_recursive(tile)
+
+	var bgtiles_sprites = []
+	for bgtiles in Wire.get_used_cells():
+		bgtiles_sprites.append([bgtiles, Wire.get_cellv(bgtiles)])
+
+	var elec_gates_status = []
+	for child in get_children():
+		if child && child.get("type") && child.type == global.Tiles.ELEC_GATE:
+			elec_gates_status.append([child, child.open])
+
+	return [bgtiles_sprites, elec_gates_status]
+
 func move(input_direction):
 	for child in get_tile_children():
 		child.add_prev_position()
 	move_children(input_direction)
 	for child in get_tile_children():
 		child.add_animation()
+
+	var wires_sprites = []
+	var elec_gate_sprites = []
+	var elec_sprite = update_wires()
+	wires_sprites.append(elec_sprite[0])
+	elec_gate_sprites.append(elec_sprite[1])
 
 	var steps = 0
 	var cont = true
@@ -234,6 +284,9 @@ func move(input_direction):
 		cont = player_moved or objects_moved
 		for child in get_tile_children():
 			child.add_animation()
+		elec_sprite = update_wires()
+		wires_sprites.append(elec_sprite[0])
+		elec_gate_sprites.append(elec_sprite[1])
 
 	for child in get_tile_children():
 		var prev = child.prev_positions[child.prev_positions.size() - 1][0]
@@ -243,6 +296,10 @@ func move(input_direction):
 	for i in range(steps):
 		for child in get_tile_children():
 			child.animate_step()
+
+		$"../Wire".set_sprites(wires_sprites[i])
+		for elec_gate in elec_gate_sprites[i]:
+			elec_gate[0].set_sprite(elec_gate[1])
 
 		#messy workaround, this should be doable without knowing the animation timing
 		var t = Timer.new()

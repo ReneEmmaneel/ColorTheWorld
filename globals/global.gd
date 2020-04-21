@@ -1,5 +1,7 @@
 extends Node
 
+enum Tiles { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE, SNOWBALL, PRESSURE_PLATE, ELEC_GATE}
+
 var levels_beaten = []
 var last_level = 0
 
