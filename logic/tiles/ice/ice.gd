@@ -11,10 +11,7 @@ func move_into(prev_obj, direction):
 	pass
 
 func moved_into(prev_obj, direction):
-	is_activated = true
-	if prev_obj.is_player():
-		obj_to_move = prev_obj
-		direction_to_move = direction
+	pass
 
 func do_when_activated():
 	pass
