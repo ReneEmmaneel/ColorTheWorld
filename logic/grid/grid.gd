@@ -74,7 +74,7 @@ func _process(delta):
 				child.back_to_prev_position()
 				#messy workaround, this should be doable without knowing the animation timing
 			var t = Timer.new()
-			t.set_wait_time(0.2)
+			t.set_wait_time(global.animation_speed)
 			t.set_one_shot(true)
 			self.add_child(t)
 			t.start()
@@ -246,7 +246,7 @@ func move(input_direction):
 
 		#messy workaround, this should be doable without knowing the animation timing
 		var t = Timer.new()
-		t.set_wait_time(0.2)
+		t.set_wait_time(global.animation_speed)
 		t.set_one_shot(true)
 		self.add_child(t)
 		t.start()

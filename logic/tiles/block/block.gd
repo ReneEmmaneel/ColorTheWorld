@@ -25,10 +25,10 @@ func animate_movement(prev_pos, target, hide):
 		$AnimationPlayer.play("Walk")
 		world_pos = target
 		$Pivot.position = (prev_pos - target) * 64
-		$Tween.interpolate_property($Pivot, "position", (prev_pos - target) * 64, Vector2(), $AnimationPlayer.current_animation_length, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		$Tween.interpolate_property($Pivot, "position", (prev_pos - target) * 64, Vector2(), global.animation_speed, Tween.TRANS_LINEAR, Tween.EASE_IN)
 		$Tween.start()
 		position = Grid.map_to_world(world_pos) + Grid.cell_size / 2
-		yield($AnimationPlayer, "animation_finished")
+		yield($Tween, "tween_completed")
 		if hide:
 			$Pivot/PlayerSprite.hide()
 
