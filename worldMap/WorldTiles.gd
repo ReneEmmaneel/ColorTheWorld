@@ -5,8 +5,8 @@ var Player
 var Worlds
 var player_world_pos
 
-var camera_width = 16
-var camera_height = 10
+export (int) var camera_width
+export (int) var camera_height
 var camera_pos = Vector2(0, 0)
 
 var tiles_to_show = []
@@ -20,6 +20,8 @@ func get_level(coor):
 func _ready():
 	Player = $"../Player"
 	Worlds = $"../Worlds"
+
+	resize_camera()
 	
 	for tile in get_used_cells():
 		var target = get_cellv(tile)
@@ -75,7 +77,16 @@ func _process(delta):
 			move_player(input_direction)
 
 func load_level(level):
-	get_tree().change_scene("res://levels/Level" + str(level) + ".tscn")
+	var Fade = $"../Fade"
+	var level_scene_path = "res://levels/Level" + str(level) + ".tscn"
+	Fade.play("FadeOut")
+	yield(Fade, "animation_finished")
+	get_tree().change_scene(level_scene_path)
+
+func resize_camera():
+	var Camera = $"../Camera2D"
+	var screen_size = global.get_screen_size()
+	Camera.zoom = Vector2(camera_width * 64, camera_height * 64) / screen_size
 
 #When the player moves out of the camera,
 #the camera moves with the given offset

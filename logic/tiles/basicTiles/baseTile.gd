@@ -52,6 +52,9 @@ func check_currently_pushable(direction) -> bool:
 	var target = world_pos + direction
 	var tile_obj = Grid.get_cell_child(target)
 
+	if check_outside_map(target):
+		return false
+
 	if tile_obj and tile_obj.is_player():
 		return true
 	if custom_currently_pushable(tile_obj, direction):
@@ -67,9 +70,15 @@ func check_currently_pushable(direction) -> bool:
 func custom_currently_pushable(tile_obj, direction) -> bool:
 	return false
 
+func check_outside_map(target) -> bool:
+	var Level = $"../.."
+	return Level.check_outside_map(target)
+
 func is_possible_move(direction):
 	var target = world_pos + direction
 	if is_player():
+		if check_outside_map(target):
+			return false
 		var tile_obj = Grid.get_cell_child(target)
 		if !tile_obj or tile_obj.is_player() or !tile_obj.exist:
 			return true

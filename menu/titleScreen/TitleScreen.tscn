@@ -11,8 +11,6 @@ size = 45
 font_data = ExtResource( 2 )
 
 [node name="TitleScreen" type="Control"]
-margin_right = 1024.0
-margin_bottom = 640.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -26,18 +24,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Menu" type="VBoxContainer" parent="ColorRect"]
+[node name="Menu" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 100.0
 margin_top = 75.0
-margin_right = 924.0
-margin_bottom = 540.0
+margin_right = -100.0
+margin_bottom = -75.0
 custom_constants/separation = 70
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="ColorRect/Menu"]
-margin_right = 824.0
+[node name="Label" type="Label" parent="Menu"]
+margin_right = 537.0
 margin_bottom = 59.0
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -46,26 +46,32 @@ text = "color the world"
 align = 1
 uppercase = true
 
-[node name="Buttons" type="HBoxContainer" parent="ColorRect/Menu"]
+[node name="Buttons" type="HBoxContainer" parent="Menu"]
 margin_top = 129.0
-margin_right = 824.0
-margin_bottom = 465.0
+margin_right = 537.0
+margin_bottom = 319.0
 size_flags_vertical = 3
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/Menu/Buttons"]
-margin_left = 312.0
-margin_right = 512.0
-margin_bottom = 336.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/Buttons"]
+margin_left = 168.0
+margin_right = 368.0
+margin_bottom = 190.0
 custom_constants/separation = 20
 
-[node name="StartGameButton" parent="ColorRect/Menu/Buttons/VBoxContainer" instance=ExtResource( 3 )]
+[node name="StartGameButton" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 3 )]
 
-[node name="Mute" parent="ColorRect/Menu/Buttons/VBoxContainer" instance=ExtResource( 5 )]
+[node name="Mute" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 5 )]
 margin_top = 70.0
 margin_bottom = 120.0
 
-[node name="QuitGameButton" parent="ColorRect/Menu/Buttons/VBoxContainer" instance=ExtResource( 4 )]
+[node name="QuitGameButton" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 140.0
 margin_bottom = 190.0
-[connection signal="pressed" from="ColorRect/Menu/Buttons/VBoxContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Menu/Buttons/VBoxContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]

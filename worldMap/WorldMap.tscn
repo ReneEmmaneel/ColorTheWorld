@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://worldMap/WorldMap.gd" type="Script" id=1]
 [ext_resource path="res://tileSet/worldMap/worldMapTileSet.png" type="Texture" id=2]
@@ -252,6 +252,22 @@ tracks/0/keys = {
 0/shapes = [  ]
 0/z_index = 0
 
+[sub_resource type="Animation" id=4]
+resource_name = "FadeOut"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("FadeRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 0.1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
 [node name="WorldMap" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -268,8 +284,10 @@ format = 1
 [node name="WorldTiles" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
 format = 1
-tile_data = PoolIntArray( 131084, 1610612800, 0, 131085, 62, 0, 131086, 62, 0, 131087, 62, 0, 131088, 62, 0, 131089, 62, 0, 131090, 62, 0, 131091, 0, 0, 131092, 1, 0, 131093, 2, 0, 131094, 4, 0, 131095, 6, 0, 131096, 8, 0, 262137, 62, 0, 262138, 62, 0, 262139, 62, 0, 262140, 62, 0, 262141, 62, 0, 262142, 62, 0, 262143, 62, 0, 196608, 60, 0, 196609, 62, 0, 196610, 0, 0, 196611, 1, 0, 196612, 3, 0, 196613, 4, 0, 196619, 5, 0, 196620, 9, 0, 196629, 3, 0, 196630, 5, 0, 196631, 7, 0, 196632, 9, 0, 262147, 2, 0, 262148, 5, 0, 262149, 7, 0, 262155, 2, 0, 262156, 7, 0, 327683, 6, 0, 327684, 8, 0, 327685, 9, 0, 327686, 62, 0, 327687, 62, 0, 327688, 62, 0, 327689, 0, 0, 327690, 1, 0, 327691, 63, 0, 393227, 3, 0, 393228, 6, 0, 458763, 4, 0, 458764, 8, 0, 458765, 62, 0, 458766, 62, 0, 458767, 62, 0, 458768, 62, 0, 458769, 62, 0, 458770, 62, 0, 458771, 62, 0 )
+tile_data = PoolIntArray( 131084, 1610612800, 0, 131085, 62, 0, 131086, 62, 0, 131087, 62, 0, 131088, 62, 0, 131089, 62, 0, 131090, 62, 0, 131091, 0, 0, 131092, 1, 0, 131093, 2, 0, 131094, 4, 0, 131095, 6, 0, 131096, 8, 0, 262131, 62, 0, 262132, 62, 0, 262133, 62, 0, 262134, 62, 0, 262135, 62, 0, 262136, 62, 0, 262137, 62, 0, 262138, 62, 0, 262139, 62, 0, 262140, 62, 0, 262141, 62, 0, 262142, 62, 0, 262143, 62, 0, 196608, 60, 0, 196609, 62, 0, 196610, 0, 0, 196611, 1, 0, 196612, 3, 0, 196613, 4, 0, 196619, 5, 0, 196620, 9, 0, 196629, 3, 0, 196630, 5, 0, 196631, 7, 0, 196632, 9, 0, 262147, 2, 0, 262148, 5, 0, 262149, 7, 0, 262155, 2, 0, 262156, 7, 0, 327683, 6, 0, 327684, 8, 0, 327685, 9, 0, 327686, 62, 0, 327687, 62, 0, 327688, 62, 0, 327689, 0, 0, 327690, 1, 0, 327691, 63, 0, 393227, 3, 0, 393228, 6, 0, 458763, 4, 0, 458764, 8, 0, 458765, 62, 0, 458766, 62, 0, 458767, 62, 0, 458768, 62, 0, 458769, 62, 0, 458770, 62, 0, 458771, 62, 0 )
 script = ExtResource( 3 )
+camera_width = 32
+camera_height = 18
 
 [node name="Player" type="Node2D" parent="."]
 
@@ -284,7 +302,7 @@ anims/Walk = SubResource( 2 )
 texture = ExtResource( 4 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 512, 320 )
+anchor_mode = 0
 rotating = true
 current = true
 
@@ -292,3 +310,16 @@ current = true
 tile_set = SubResource( 3 )
 format = 1
 tile_data = PoolIntArray( 458755, 0, 0, 458756, 0, 0, 458758, 0, 0, 458759, 0, 0, 524289, 0, 0, 524290, 0, 0, 524291, 0, 0, 524292, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0 )
+
+[node name="FadeRect" type="ColorRect" parent="."]
+margin_left = -10000.0
+margin_top = -10000.0
+margin_right = 10000.0
+margin_bottom = 10000.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fade" type="AnimationPlayer" parent="."]
+anims/FadeOut = SubResource( 4 )
