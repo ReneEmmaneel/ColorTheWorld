@@ -76,7 +76,8 @@ func _process(_delta):
 				child.back_to_prev_position()
 				#messy workaround, this should be doable without knowing the animation timing
 
-			$"../Wire".set_sprites(update_wires()[0])
+			for wire_sprite in update_wires()[0]:
+				wire_sprite[0].set_sprites(wire_sprite[1])
 
 			var t = Timer.new()
 			t.set_wait_time(global.animation_speed)
@@ -223,47 +224,65 @@ func update_player_sprites():
 		if child.is_player():
 			child.change_sprite()
 
-func activate_wires_recursive(tile):
-	var Wire = $"../Wire"
+func activate_wires_recursive(tile, Wire):
+	if Wire.get_cellv(tile) == -1:
+		return
 	for dir in [Vector2(1,0), Vector2(0,1), Vector2(-1, 0), Vector2(0, -1)]:
 		var target = tile + dir
 		if Wire.get_cellv(target) == Wire.WIRE_OFF:
 			Wire.set_cellv(target, Wire.WIRE_ON)
 			Wire.update_bitmask_area(target)
-			activate_wires_recursive(target)
-		for cell in get_children():
-			if cell && cell.get("type") && cell.type == global.Tiles.ELEC_GATE:
-				if cell.world_pos == target:
-					cell.close_gate()
+			activate_wires_recursive(target, Wire)
+
+	for cell in get_children():
+		if cell && cell.get("type") && cell.type == global.Tiles.ELEC_GATE:
+			if cell.world_pos == tile:
+				cell.close_gate()
+
+func get_wire_scenes():
+	var Parent = $".."
+	var wire_list = []
+	var i = 1
+	while Parent.has_node("Wire" + str(i)):
+		wire_list.append(Parent.get_node("Wire" + str(i)))
+		i += 1
+	return wire_list
+	print(wire_list)
 
 #Update the wires in the current substep
 #Returns a list of the following lists, in the following order:
 #	A list of all wire tiles and their corresponding sprites in the wire layer
 #	A list of all elec gate child objs and their corresponding open status 
 func update_wires():
-	var Wire = $"../Wire"
+	var wire_scenes = get_wire_scenes()
 	var BackLayer = $"../BackLayer"
-	Wire.deactivate_wires()
 
 	for child in get_tile_children():
 		if child.type == ELEC_GATE:
 			child.open_gate()
-	for child in get_tile_children():
-		var tile = child.world_pos
-		var bgtile = BackLayer.get_cellv(tile)
-		if bgtile == PRESSURE_PLATE:
-			activate_wires_recursive(tile)
 
-	var bgtiles_sprites = []
-	for bgtiles in Wire.get_used_cells():
-		bgtiles_sprites.append([bgtiles, Wire.get_cellv(bgtiles)])
+	var wire_sprites = []
+	for Wire in wire_scenes:
+		var curr_wire_sprites = []
+		Wire.deactivate_wires()
+	
+		for child in get_tile_children():
+			var tile = child.world_pos
+			var bgtile = BackLayer.get_cellv(tile)
+			if bgtile == PRESSURE_PLATE:
+				activate_wires_recursive(tile, Wire)
+
+		for wire in Wire.get_used_cells():
+			curr_wire_sprites.append([wire, Wire.get_cellv(wire)])
+
+		wire_sprites.append([Wire, curr_wire_sprites])
 
 	var elec_gates_status = []
 	for child in get_children():
 		if child && child.get("type") && child.type == global.Tiles.ELEC_GATE:
 			elec_gates_status.append([child, child.open])
 
-	return [bgtiles_sprites, elec_gates_status]
+	return [wire_sprites, elec_gates_status]
 
 func move(input_direction):
 	for child in get_tile_children():
@@ -299,11 +318,14 @@ func move(input_direction):
 			var curr = child.world_pos
 
 	self.set_can_move(false)
+
 	for i in range(steps):
 		for child in get_tile_children():
 			child.animate_step()
 
-		$"../Wire".set_sprites(wires_sprites[i])
+		for wire_sprite in wires_sprites[i]:
+			wire_sprite[0].set_sprites(wire_sprite[1])
+
 		for elec_gate in elec_gate_sprites[i]:
 			elec_gate[0].set_sprite(elec_gate[1])
 
