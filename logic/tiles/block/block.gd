@@ -14,6 +14,7 @@ func _ready():
 	type = BLOCK
 	is_pushable = true
 	is_breakable = true
+	record_last_move = true
 
 func animate_movement(prev_pos, target, hide):
 	custom_animate_movement()

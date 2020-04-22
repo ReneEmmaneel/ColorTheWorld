@@ -4,6 +4,7 @@ func _ready():
 	open = false
 	can_move_onto = true
 	type = global.Tiles.ELEC_GATE
+	record_last_move = true
 
 func open_gate():
 	for child in $"..".get_cell_child(world_pos):

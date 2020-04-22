@@ -10,6 +10,7 @@ extends Node2D
 enum { EMPTY = -1, WALL, BLUE, GREY, BLOCK, KEY, DOOR, BOMB, WALL_CRACKED, ICE, SNOWBALL, PRESSURE_PLATE}
 onready var Grid = get_parent()
 var direction
+var record_last_move = false
 var is_tile = true
 var is_pushable = false
 var is_player = false
@@ -133,25 +134,25 @@ func readd_obj():
 var open = false
 
 func add_prev_position():
-	prev_positions.append([world_pos, exist, open])
+	if record_last_move:
+		prev_positions.append([world_pos, exist, open])
 
 func back_to_prev_position():
-	if prev_positions.size() > 0:
-		var prev = prev_positions[prev_positions.size() - 1]
-		if exist != prev[1]:
-			if exist:
-				remove_obj()
-			else:
-				readd_obj()
-		if open != prev[2]:
-			open = prev[2]
-			set_sprite(prev[2])
-
-		animate_movement(world_pos, prev[0], false)
-		world_pos = prev[0]
-		prev_positions.remove(prev_positions.size() - 1)
-
-	$"../../Wire".set_sprites(Grid.update_wires()[0])
+	if record_last_move:
+		if prev_positions.size() > 0:
+			var prev = prev_positions[prev_positions.size() - 1]
+			if exist != prev[1]:
+				if exist:
+					remove_obj()
+				else:
+					readd_obj()
+			if open != prev[2]:
+				open = prev[2]
+				set_sprite(prev[2])
+	
+			animate_movement(world_pos, prev[0], false)
+			world_pos = prev[0]
+			prev_positions.remove(prev_positions.size() - 1)
 
 #Just a stump function, currently only overridden in elec_gate
 func set_sprite(open):
@@ -211,37 +212,42 @@ func add_become_player_animation():
 	add_to_queue(Anim.new(BECOME_PLAYER, [world_pos, world_pos], true))
 
 func add_animation():
-	var prev_pos
-	if animation_queue.size() > 0:
-		prev_pos = animation_queue[animation_queue.size() - 1].new_pos
-	else:
-		prev_pos = prev_positions[prev_positions.size() - 1][0]
-	var new_pos = world_pos
-	if prev_pos == new_pos:
-		add_wait_animation(new_pos)
-	else:
-		add_move_animation(prev_pos, new_pos)
+	if record_last_move:
+		var prev_pos
+		if animation_queue.size() > 0:
+			prev_pos = animation_queue[animation_queue.size() - 1].new_pos
+		else:
+			prev_pos = prev_positions[prev_positions.size() - 1][0]
+		var new_pos = world_pos
+		if prev_pos == new_pos:
+			add_wait_animation(new_pos)
+		else:
+			add_move_animation(prev_pos, new_pos)
 
 func has_moved_in_current_sub_step():
-	return world_pos != get_last_from_queue().new_pos
+	if record_last_move:
+		return world_pos != get_last_from_queue().new_pos
+	else:
+		return false
 
 func animate_step():
-	var animation_step = get_and_remove_first_from_queue()
-	if !animation_step:
-		return
-
-	while animation_step != null and animation_step.instant_anim:
-		if animation_step.type == HIDE:
-			get_sprite().hide()
-		elif animation_step.type == BECOME_PLAYER:
-			self.change_sprite_to_blue()
-		animation_step = get_and_remove_first_from_queue()
-
-	if animation_step != null:
-		var prev_pos = animation_step.old_pos
-		var new_pos = animation_step.new_pos
-		if prev_pos != null and new_pos != null:
-			animate_movement(prev_pos, new_pos, false)
+	if record_last_move:
+		var animation_step = get_and_remove_first_from_queue()
+		if !animation_step:
+			return
+	
+		while animation_step != null and animation_step.instant_anim:
+			if animation_step.type == HIDE:
+				get_sprite().hide()
+			elif animation_step.type == BECOME_PLAYER:
+				self.change_sprite_to_blue()
+			animation_step = get_and_remove_first_from_queue()
+	
+		if animation_step != null:
+			var prev_pos = animation_step.old_pos
+			var new_pos = animation_step.new_pos
+			if prev_pos != null and new_pos != null:
+				animate_movement(prev_pos, new_pos, false)
 
 func change_sprite_to_blue():
 	pass

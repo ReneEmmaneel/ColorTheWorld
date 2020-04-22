@@ -75,6 +75,9 @@ func _process(_delta):
 			for child in get_tile_children():
 				child.back_to_prev_position()
 				#messy workaround, this should be doable without knowing the animation timing
+
+			$"../Wire".set_sprites(update_wires()[0])
+
 			var t = Timer.new()
 			t.set_wait_time(global.animation_speed)
 			t.set_one_shot(true)
@@ -177,23 +180,24 @@ func move_objects(input_direction):
 	for child in children:
 		if !child.has_moved_in_current_sub_step():
 			if !child.is_player():
-				var last_substep_pos = child.get_last_from_queue().old_pos
-				#if the object didn't move yet, it will not need to move
-				if last_substep_pos != child.world_pos:
-					if child.is_pushable():
-						#check if on ice
-						var tile_bg_obj_type = get_cell_background_child(child.world_pos)
-						var target = child.world_pos + input_direction
-						if tile_bg_obj_type == ICE:
-							if child.check_currently_pushable(input_direction):
-								child.move(input_direction)
-								pushed = true
-
-						#check if snowball
-						elif child.type == SNOWBALL:
-							if child.check_currently_pushable(input_direction):
-								child.move(input_direction)
-								pushed = true
+				if child.record_last_move:
+					var last_substep_pos = child.get_last_from_queue().old_pos
+					#if the object didn't move yet, it will not need to move
+					if last_substep_pos != child.world_pos:
+						if child.is_pushable():
+							#check if on ice
+							var tile_bg_obj_type = get_cell_background_child(child.world_pos)
+							var target = child.world_pos + input_direction
+							if tile_bg_obj_type == ICE:
+								if child.check_currently_pushable(input_direction):
+									child.move(input_direction)
+									pushed = true
+	
+							#check if snowball
+							elif child.type == SNOWBALL:
+								if child.check_currently_pushable(input_direction):
+									child.move(input_direction)
+									pushed = true
 	return pushed
 
 func should_move_children_on_ice(input_direction) -> bool:
@@ -290,8 +294,9 @@ func move(input_direction):
 		elec_gate_sprites.append(elec_sprite[1])
 
 	for child in get_tile_children():
-		var prev = child.prev_positions[child.prev_positions.size() - 1][0]
-		var curr = child.world_pos
+		if child.record_last_move:
+			var prev = child.prev_positions[child.prev_positions.size() - 1][0]
+			var curr = child.world_pos
 
 	self.set_can_move(false)
 	for i in range(steps):
