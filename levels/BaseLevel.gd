@@ -37,3 +37,5 @@ func _ready():
 	center_camera()
 	color_ground()
 	$Fade.play("FadeIn")
+
+	

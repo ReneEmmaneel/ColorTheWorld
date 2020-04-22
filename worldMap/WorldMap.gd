@@ -16,8 +16,6 @@ func cancel_pressed():
 		menu_instance = menu.instance()
 		menu_instance.set_position($Camera2D.offset)
 		menu_instance.rect_scale = $Camera2D.zoom
-		print($Camera2D.position)
-		print(menu_instance.rect_position)
 		add_child(menu_instance)
 
 func back_to_titlescreen():

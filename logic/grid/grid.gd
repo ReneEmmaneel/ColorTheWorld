@@ -140,9 +140,11 @@ func check_move(input_direction) -> bool:
 	return true
 
 func get_cell_child(position):
+	var children = []
 	for child in get_tile_children():
 		if child.world_pos == position and child.exist and !child.is_background():
-			return child
+			children.append(child)
+	return children
 
 func get_cell_background_child(position):
 	var Background = $"../BackLayer"
@@ -175,24 +177,23 @@ func move_objects(input_direction):
 	for child in children:
 		if !child.has_moved_in_current_sub_step():
 			if !child.is_player():
+				var last_substep_pos = child.get_last_from_queue().old_pos
 				#if the object didn't move yet, it will not need to move
-				if child.prev_positions[child.prev_positions.size() - 1][0] != child.world_pos:
+				if last_substep_pos != child.world_pos:
 					if child.is_pushable():
 						#check if on ice
 						var tile_bg_obj_type = get_cell_background_child(child.world_pos)
 						var target = child.world_pos + input_direction
-						var tile_obj = get_cell_child(target)
 						if tile_bg_obj_type == ICE:
-							if !tile_obj or !tile_obj.is_player():
-								if child.check_currently_pushable(input_direction):
-									child.move(input_direction)
-									pushed = true
+							if child.check_currently_pushable(input_direction):
+								child.move(input_direction)
+								pushed = true
+
 						#check if snowball
 						elif child.type == SNOWBALL:
-							if !tile_obj or !tile_obj.is_player():
-								if child.check_currently_pushable(input_direction):
-									child.move(input_direction)
-									pushed = true
+							if child.check_currently_pushable(input_direction):
+								child.move(input_direction)
+								pushed = true
 	return pushed
 
 func should_move_children_on_ice(input_direction) -> bool:

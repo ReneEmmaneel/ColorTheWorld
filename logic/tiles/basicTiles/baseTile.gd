@@ -16,6 +16,7 @@ var is_player = false
 var is_breakable = false
 var is_background = false
 var is_activated = false
+var can_move_onto = false
 var can_be_player = false
 var type
 var world_pos
@@ -46,46 +47,68 @@ func set_direction(v2) -> void:
 func get_direction(v2) -> Vector2:
 	return direction
 
-# Returns true if the tile in the given direction is
-# empty, the player or a pushable object that's currently pushable
+# Returns true if the current object can be pushed in the given direction.
+# This means that the tile in the given direction is
+# empty, the player or a pushable object that's currently pushable.
+# It also calls custom_currently_pushable, which is a function that calls
+# to see if the current tile can be pushed into the given tile_obj
+# Multiple times every substep
 func check_currently_pushable(direction) -> bool:
 	var target = world_pos + direction
-	var tile_obj = Grid.get_cell_child(target)
-
+	var pushable = true
 	if check_outside_map(target):
 		return false
 
-	if tile_obj and tile_obj.is_player():
-		return true
-	if custom_currently_pushable(tile_obj, direction):
-		return true
-	elif !tile_obj or !tile_obj.exist:
-		return true
-	elif is_breakable() and tile_obj.type == BOMB:
-		return true
-	elif tile_obj.is_pushable():
-		return tile_obj.check_currently_pushable(direction)
-	return false
+	for tile_obj in Grid.get_cell_child(target):
+		if tile_obj and tile_obj.is_player():
+			continue
+		if custom_currently_pushable(tile_obj, direction):
+			continue
+		if !tile_obj.custom_can_get_pushed_into(self, direction):
+			return false
+		if is_breakable() and tile_obj.type == BOMB:
+			continue
+		if tile_obj.is_pushable():
+			if tile_obj.check_currently_pushable(direction):
+				continue
+		if tile_obj.can_move_onto:
+			continue
+		return false
+	return true
 
-func custom_currently_pushable(tile_obj, direction) -> bool:
-	return false
-
-func check_outside_map(target) -> bool:
-	var Level = $"../.."
-	return Level.check_outside_map(target)
-
+# Check if the player is able to move in the given direction.
+# This will be called once every turn
 func is_possible_move(direction):
 	var target = world_pos + direction
 	if is_player():
 		if check_outside_map(target):
 			return false
-		var tile_obj = Grid.get_cell_child(target)
-		if !tile_obj or tile_obj.is_player() or !tile_obj.exist:
-			return true
-		if tile_obj.is_pushable():
-			return tile_obj.check_currently_pushable(direction)
-		return false
+
+		for tile_obj in Grid.get_cell_child(target):
+			if !tile_obj.custom_can_get_pushed_into(self, direction):
+				return false
+			if !tile_obj or tile_obj.is_player() or !tile_obj.exist:
+				continue
+			elif tile_obj.is_pushable():
+				if tile_obj.check_currently_pushable(direction):
+					continue
+				else:
+					return false
+			elif tile_obj.can_move_onto:
+				continue
+			else:
+				return false
 	return true
+
+func custom_currently_pushable(tile_obj, direction) -> bool:
+	return false
+
+func custom_can_get_pushed_into(tile_obj, direction) -> bool:
+	return true
+
+func check_outside_map(target) -> bool:
+	var Level = $"../.."
+	return Level.check_outside_map(target)
 
 # Get the sprite of the current tile.
 # There are 2 different possibilities:
@@ -107,19 +130,32 @@ func readd_obj():
 	exist = true
 	get_sprite().show()
 
+var open = false
+
 func add_prev_position():
-	prev_positions.append([world_pos, exist])
+	prev_positions.append([world_pos, exist, open])
 
 func back_to_prev_position():
 	if prev_positions.size() > 0:
-		if exist != prev_positions[prev_positions.size() - 1][1]:
+		var prev = prev_positions[prev_positions.size() - 1]
+		if exist != prev[1]:
 			if exist:
 				remove_obj()
 			else:
 				readd_obj()
-		animate_movement(world_pos, prev_positions[prev_positions.size() - 1][0], false)
-		world_pos = prev_positions[prev_positions.size() - 1][0]
+		if open != prev[2]:
+			open = prev[2]
+			set_sprite(prev[2])
+
+		animate_movement(world_pos, prev[0], false)
+		world_pos = prev[0]
 		prev_positions.remove(prev_positions.size() - 1)
+
+	$"../../Wire".set_sprites(Grid.update_wires()[0])
+
+#Just a stump function, currently only overridden in elec_gate
+func set_sprite(open):
+	pass
 
 ####animations
 var animation_queue = []
