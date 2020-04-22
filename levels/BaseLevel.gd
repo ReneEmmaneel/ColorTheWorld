@@ -33,7 +33,7 @@ func check_outside_map(target):
 	return !inside
 
 func _ready():
-	$FadeRect.visible = true
+	$"FadeRectParent/FadeRect".visible = true
 	center_camera()
 	color_ground()
 	$Fade.play("FadeIn")

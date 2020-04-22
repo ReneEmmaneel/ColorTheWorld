@@ -6,7 +6,7 @@
 [ext_resource path="res://tileSet/level/blue-Sheet.png" type="Texture" id=4]
 [ext_resource path="res://tileSet/level/grey-Sheet.png" type="Texture" id=5]
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=1]
 resource_name = "Walk"
 length = 0.2
 tracks/0/type = "value"
@@ -22,7 +22,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=2]
 resource_name = "Win"
 length = 2.0
 tracks/0/type = "value"
@@ -62,86 +62,86 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="AtlasTexture" id=22]
+[sub_resource type="AtlasTexture" id=3]
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=23]
+[sub_resource type="AtlasTexture" id=4]
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 64, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=5]
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 128, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=25]
+[sub_resource type="AtlasTexture" id=6]
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=26]
+[sub_resource type="AtlasTexture" id=7]
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 256, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=27]
+[sub_resource type="AtlasTexture" id=8]
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 320, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 256, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=14]
 flags = 4
 atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=15]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 64, 0, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=16]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 128, 0, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=17]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 192, 0, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=18]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 256, 0, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=19]
-flags = 4
-atlas = ExtResource( 5 )
 region = Rect2( 320, 0, 64, 64 )
 
-[sub_resource type="SpriteFrames" id=28]
+[sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "blue",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
 "loop": true,
 "name": "grey",
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=29]
+[sub_resource type="Curve" id=16]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.485746 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=30]
-curve = SubResource( 29 )
+[sub_resource type="CurveTexture" id=17]
+curve = SubResource( 16 )
 
-[sub_resource type="ParticlesMaterial" id=31]
+[sub_resource type="ParticlesMaterial" id=18]
 lifetime_randomness = 0.5
 emission_shape = 2
 emission_box_extents = Vector3( 5, 5, 1 )
@@ -154,25 +154,26 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 5.0
 scale = 10.0
-scale_curve = SubResource( 30 )
+scale_curve = SubResource( 17 )
 color = Color( 0, 0, 1, 1 )
 
 [node name="Player" type="Node2D"]
 scale = Vector2( 1.01429, 1.00671 )
+z_index = 10
 script = ExtResource( 1 )
 grey_texture = ExtResource( 2 )
 blue_texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Walk = SubResource( 20 )
-anims/Win = SubResource( 21 )
+anims/Walk = SubResource( 1 )
+anims/Win = SubResource( 2 )
 
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Pivot" type="Position2D" parent="."]
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="Pivot"]
-frames = SubResource( 28 )
+frames = SubResource( 15 )
 animation = "grey"
 
 [node name="Particles2D" type="Particles2D" parent="."]
@@ -181,4 +182,4 @@ position = Vector2( 0, 0.594749 )
 emitting = false
 amount = 14
 lifetime = 3.0
-process_material = SubResource( 31 )
+process_material = SubResource( 18 )

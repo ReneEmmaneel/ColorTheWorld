@@ -18,6 +18,7 @@ animations = [ {
 } ]
 
 [node name="Elec_gate" type="Node2D"]
+z_index = 1
 script = ExtResource( 3 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
