@@ -5,6 +5,7 @@
 [node name="Level7" instance=ExtResource( 1 )]
 width = 11
 height = 7
+level_id = 7
 
 [node name="TileMap" parent="." index="4"]
 position = Vector2( 1, 0 )

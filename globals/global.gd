@@ -11,14 +11,17 @@ var debug_show_all_levels = true
 var debug_start_muted = true
 var debug_shorcuts = true
 
+var all_level_scenes = []
+
 func _ready():
-	pass
+	all_level_scenes = level_scenes_to_list("res://levels/")
 
 func get_screen_size():
 	return get_viewport().size
 
 func level_beaten(level):
 	last_level = level
+	print(last_level)
 	if !(level in levels_beaten):
 		levels_beaten.append(level)
 
@@ -29,3 +32,32 @@ func _process(delta):
 	if debug_shorcuts:
 		if Input.is_action_just_pressed("ui_exit_game"):
 			get_tree().quit()
+
+func level_scenes_to_list(path):
+	var levels = []
+	var dir = Directory.new()
+	dir.open(path)
+	dir.list_dir_begin()
+
+	while true:
+		var file = dir.get_next()
+		if file == "":
+			break
+		else:
+			if !file.begins_with("."):
+				if file.ends_with(".tscn"):
+					var full_file_name = path + file
+					var level = load(full_file_name)
+					if level:
+						var level_id = level.instance().level_id
+						levels.append([level_id, full_file_name])
+
+	dir.list_dir_end()
+
+	return levels
+
+func get_level_scene(level_id_to_load):
+	for level in all_level_scenes:
+		var level_id = level[0]
+		if level_id == level_id_to_load:
+			return level[1]

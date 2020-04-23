@@ -13,5 +13,5 @@ func remove_unused_world_tiles():
 	var WorldTiles = $"../WorldTiles"
 	for tile in get_used_cells():
 		var target = WorldTiles.get_cellv(tile)
-		if !(target >= 0 && target <= 9):
+		if !(target >= 0 && target <= 19):
 			set_cellv(tile, -1)

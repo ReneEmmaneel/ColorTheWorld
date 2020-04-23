@@ -155,7 +155,7 @@ func back_to_prev_position():
 			prev_positions.remove(prev_positions.size() - 1)
 
 #Just a stump function, currently only overridden in elec_gate
-func set_sprite(open):
+func set_sprite(openz):
 	pass
 
 ####animations

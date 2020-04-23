@@ -5,6 +5,7 @@
 [node name="Level4" instance=ExtResource( 1 )]
 width = 10
 height = 3
+level_id = 4
 
 [node name="TileMap" parent="." index="4"]
 tile_data = PoolIntArray( 0, 1, 0, 4, 2, 0, 65537, 3, 0, 65538, 2, 0, 65539, 3, 0, 65544, 0, 0, 65545, 2, 0, 131077, 0, 0, 131080, 2, 0 )

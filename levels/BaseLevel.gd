@@ -4,10 +4,10 @@ export (Color) var bgColor = "#EEEEEE"
 export (Color) var fgColor = "#AAAAAA"
 export (int) var width = 15
 export (int) var height = 10
+export (int) var level_id
 
-# Extract the level number from its internal name
 func get_level() -> int:
-	return get_tree().get_current_scene().get_name().right(5).to_int()
+	return level_id
 
 func center_camera():
 	var Camera = $Camera2D

@@ -115,7 +115,7 @@ func win():
 	t.start()
 
 	yield(t, "timeout")
-	
+
 	t.queue_free()
 
 	var level = get_parent().get_level()
@@ -193,7 +193,7 @@ func move_objects(input_direction):
 								if child.check_currently_pushable(input_direction):
 									child.move(input_direction)
 									pushed = true
-	
+
 							#check if snowball
 							elif child.type == SNOWBALL:
 								if child.check_currently_pushable(input_direction):
@@ -252,7 +252,7 @@ func get_wire_scenes():
 #Update the wires in the current substep
 #Returns a list of the following lists, in the following order:
 #	A list of all wire tiles and their corresponding sprites in the wire layer
-#	A list of all elec gate child objs and their corresponding open status 
+#	A list of all elec gate child objs and their corresponding open status
 func update_wires():
 	var wire_scenes = get_wire_scenes()
 	var BackLayer = $"../BackLayer"
@@ -265,7 +265,7 @@ func update_wires():
 	for Wire in wire_scenes:
 		var curr_wire_sprites = []
 		Wire.deactivate_wires()
-	
+
 		for child in get_tile_children():
 			var tile = child.world_pos
 			var bgtile = BackLayer.get_cellv(tile)
@@ -354,6 +354,6 @@ func get_input_direction():
 			curr_movement = prev_movement
 		else:
 			curr_movement.y = 0
-	
+
 	prev_movement = curr_movement
 	return curr_movement

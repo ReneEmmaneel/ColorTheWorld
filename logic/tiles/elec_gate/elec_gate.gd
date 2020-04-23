@@ -26,3 +26,9 @@ func set_sprite(open):
 
 func custom_can_get_pushed_into(tile_obj, direction) -> bool:
 	return open
+
+
+func _on_Sprite_animation_finished():
+	#do smth with checking which frame the current animation is on, to make sure
+	#the animation goes nicely or things
+	pass # Replace with function body.
