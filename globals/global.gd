@@ -21,7 +21,6 @@ func get_screen_size():
 
 func level_beaten(level):
 	last_level = level
-	print(last_level)
 	if !(level in levels_beaten):
 		levels_beaten.append(level)
 
@@ -39,13 +38,34 @@ func level_scenes_to_list(path):
 	dir.open(path)
 	dir.list_dir_begin()
 
+	#Open all levels in res://levels and res://levels/World*
 	while true:
 		var file = dir.get_next()
+
 		if file == "":
 			break
 		else:
 			if !file.begins_with("."):
-				if file.ends_with(".tscn"):
+				if file.begins_with("World"):
+					var world_dir = Directory.new()
+					var world_path = path + file + "/"
+					world_dir.open(world_path)
+					world_dir.list_dir_begin()
+					while true:
+						var file_level = world_dir.get_next()
+
+						if file_level == "":
+							break
+						else:
+							if !file_level.begins_with("."):
+								if file_level.ends_with(".tscn"):
+									var full_file_name = world_path + file_level
+									var level = load(full_file_name)
+									if level:
+										var level_id = level.instance().level_id
+										levels.append([level_id, full_file_name])
+					world_dir.list_dir_end()
+				elif file.ends_with(".tscn"):
 					var full_file_name = path + file
 					var level = load(full_file_name)
 					if level:

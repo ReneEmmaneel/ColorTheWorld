@@ -247,7 +247,6 @@ func get_wire_scenes():
 		wire_list.append(Parent.get_node("Wire" + str(i)))
 		i += 1
 	return wire_list
-	print(wire_list)
 
 #Update the wires in the current substep
 #Returns a list of the following lists, in the following order:

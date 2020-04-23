@@ -2,7 +2,9 @@
 
 [ext_resource path="res://levels/BaseLevel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tileSet/elec/WireTileSet.tres" type="TileSet" id=2]
-[ext_resource path="res://levels/Wire.gd" type="Script" id=3]
+[ext_resource path="res://logic/grid/Wire.gd" type="Script" id=3]
+
+
 
 [node name="Level21" instance=ExtResource( 1 )]
 bgColor = Color( 0, 0, 0, 1 )

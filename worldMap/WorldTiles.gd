@@ -29,7 +29,6 @@ func _ready():
 
 		#Put player on the right tile
 		if (global.last_level == 0 and target == START) or (level == global.last_level):
-			print(level, global.last_level)
 			player_world_pos = tile
 			Player.position = map_to_world(tile) + cell_size / 2
 			check_camera_pos()
