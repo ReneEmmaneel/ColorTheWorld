@@ -168,6 +168,8 @@ func move_children(input_direction):
 	for child in get_tile_children():
 		if child.is_player():
 			child.move(input_direction)
+
+func color_blue():
 	for child in get_tile_children():
 		if child.is_player():
 			child.color_blue()
@@ -289,6 +291,7 @@ func move(input_direction):
 	move_children(input_direction)
 	for child in get_tile_children():
 		child.add_animation()
+	color_blue()
 
 	var wires_sprites = []
 	var elec_gate_sprites = []
@@ -307,6 +310,7 @@ func move(input_direction):
 		cont = player_moved or objects_moved
 		for child in get_tile_children():
 			child.add_animation()
+		color_blue()
 		elec_sprite = update_wires()
 		wires_sprites.append(elec_sprite[0])
 		elec_gate_sprites.append(elec_sprite[1])
@@ -339,7 +343,7 @@ func move(input_direction):
 	self.set_can_move(true)
 
 	for child in get_tile_children():
-		child.empty_animation_queue()
+		child.empty_and_execute_animation_queue()
 
 	update_player_sprites()
 

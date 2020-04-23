@@ -6,8 +6,6 @@
 [ext_resource path="res://logic/grid/grid.gd" type="Script" id=4]
 [ext_resource path="res://tileSet/elec/WireTileSet.tres" type="TileSet" id=5]
 
-
-
 [sub_resource type="Animation" id=1]
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeRectParent/FadeRect:color")
@@ -52,7 +50,7 @@ format = 1
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
 format = 1
-tile_data = PoolIntArray( 5, 11, 0, 6, 11, 0, 7, 11, 0, 8, 11, 0, 9, 11, 0, 10, 11, 0, 11, 11, 0, 12, 11, 0, 131076, 3, 0, 196610, 1, 0, 262144, 2, 0, 327680, 2, 0, 393216, 2, 0, 524288, 2, 0 )
+tile_data = PoolIntArray( 131072, 1, 0, 131074, 3, 0, 131075, 2, 0, 131079, 2, 0, 196610, 2, 0, 196611, 2, 0, 196612, 2, 0 )
 script = ExtResource( 4 )
 
 [node name="Camera2D" type="Camera2D" parent="."]

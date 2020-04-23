@@ -149,17 +149,20 @@ func back_to_prev_position():
 			if open != prev[2]:
 				open = prev[2]
 				set_sprite(prev[2])
-	
+
 			animate_movement(world_pos, prev[0], false)
 			world_pos = prev[0]
 			prev_positions.remove(prev_positions.size() - 1)
 
 #Just a stump function, currently only overridden in elec_gate
-func set_sprite(openz):
+func set_sprite(open):
 	pass
 
 ####animations
 var animation_queue = []
+
+func length_animation_queue():
+	return animation_queue.size()
 
 func add_to_queue(variable):
 	animation_queue.append(variable)
@@ -180,9 +183,14 @@ func get_last_from_queue():
 func empty_animation_queue():
 	animation_queue = []
 
+
+func empty_and_execute_animation_queue():
+	while animation_queue.size() > 0:
+		animate_step()
+
 enum {STOP, MOVE, HIDE, BECOME_PLAYER}
 
-#Animation should 
+#Animation should
 class Anim:
 	var type
 	var old_pos
@@ -209,7 +217,7 @@ func add_hide_animation():
 	add_to_queue(Anim.new(HIDE, [null, null], true))
 
 func add_become_player_animation():
-	add_to_queue(Anim.new(BECOME_PLAYER, [world_pos, world_pos], true))
+	add_to_queue(Anim.new(BECOME_PLAYER, [null, null], true))
 
 func add_animation():
 	if record_last_move:
@@ -235,14 +243,14 @@ func animate_step():
 		var animation_step = get_and_remove_first_from_queue()
 		if !animation_step:
 			return
-	
+
 		while animation_step != null and animation_step.instant_anim:
 			if animation_step.type == HIDE:
 				get_sprite().hide()
 			elif animation_step.type == BECOME_PLAYER:
 				self.change_sprite_to_blue()
 			animation_step = get_and_remove_first_from_queue()
-	
+
 		if animation_step != null:
 			var prev_pos = animation_step.old_pos
 			var new_pos = animation_step.new_pos
