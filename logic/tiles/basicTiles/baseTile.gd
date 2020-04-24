@@ -62,7 +62,8 @@ func check_currently_pushable(direction) -> bool:
 
 	for tile_obj in Grid.get_cell_child(target):
 		if tile_obj and tile_obj.is_player():
-			continue
+			if tile_obj.check_currently_pushable(direction):
+				continue
 		if custom_currently_pushable(tile_obj, direction):
 			continue
 		if !tile_obj.custom_can_get_pushed_into(self, direction):
@@ -214,10 +215,10 @@ func add_move_animation(prev_pos, new_pos):
 	add_to_queue(Anim.new(MOVE, [prev_pos, new_pos]))
 
 func add_hide_animation():
-	add_to_queue(Anim.new(HIDE, [null, null], true))
+	add_to_queue(Anim.new(HIDE, [world_pos, world_pos], true))
 
 func add_become_player_animation():
-	add_to_queue(Anim.new(BECOME_PLAYER, [null, null], true))
+	add_to_queue(Anim.new(BECOME_PLAYER, [world_pos, world_pos], true))
 
 func add_animation():
 	if record_last_move:
@@ -254,6 +255,7 @@ func animate_step():
 		if animation_step != null:
 			var prev_pos = animation_step.old_pos
 			var new_pos = animation_step.new_pos
+			print(prev_pos, new_pos)
 			if prev_pos != null and new_pos != null:
 				animate_movement(prev_pos, new_pos, false)
 

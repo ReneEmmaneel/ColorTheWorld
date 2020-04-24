@@ -99,8 +99,6 @@ func _process(_delta):
 func start_move(input_direction):
 	if check_move(input_direction):
 		move(input_direction)
-		if check_won():
-			win()
 
 func win():
 	won = true
@@ -303,10 +301,10 @@ func move(input_direction):
 	var cont = true
 	while cont:
 		steps = steps + 1
-		var objects_moved = move_objects(input_direction)
 		var player_moved = should_move_children_on_ice(input_direction)
 		if player_moved:
 			move_children(input_direction)
+		var objects_moved = move_objects(input_direction)
 		cont = player_moved or objects_moved
 		for child in get_tile_children():
 			child.add_animation()
@@ -343,9 +341,13 @@ func move(input_direction):
 	self.set_can_move(true)
 
 	for child in get_tile_children():
+		print(child.animation_queue.size())
 		child.empty_and_execute_animation_queue()
 
 	update_player_sprites()
+
+	if check_won():
+		win()
 
 func get_input_direction():
 	var curr_movement = Vector2(

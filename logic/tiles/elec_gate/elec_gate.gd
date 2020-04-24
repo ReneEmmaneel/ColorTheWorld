@@ -4,6 +4,7 @@ func _ready():
 	open = false
 	can_move_onto = true
 	type = global.Tiles.ELEC_GATE
+	open_gate()
 	record_last_move = true
 
 func open_gate():
