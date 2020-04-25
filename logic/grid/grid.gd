@@ -175,7 +175,7 @@ func color_blue():
 # Move objects when object is on ice
 # It also checks if the target tile is filled with player,
 # in which case it should not move!
-func move_objects(input_direction):
+func move_objects(input_direction, player_has_moved = false):
 	var pushed = false
 	var children = get_tile_children()
 	for child in children:
@@ -190,13 +190,13 @@ func move_objects(input_direction):
 							var tile_bg_obj_type = get_cell_background_child(child.world_pos)
 							var target = child.world_pos + input_direction
 							if tile_bg_obj_type == ICE:
-								if child.check_currently_pushable(input_direction):
+								if child.check_currently_pushable(input_direction, player_has_moved):
 									child.move(input_direction)
 									pushed = true
 
 							#check if snowball
 							elif child.type == SNOWBALL:
-								if child.check_currently_pushable(input_direction):
+								if child.check_currently_pushable(input_direction, player_has_moved):
 									child.move(input_direction)
 									pushed = true
 	return pushed
@@ -304,7 +304,7 @@ func move(input_direction):
 		var player_moved = should_move_children_on_ice(input_direction)
 		if player_moved:
 			move_children(input_direction)
-		var objects_moved = move_objects(input_direction)
+		var objects_moved = move_objects(input_direction, player_moved)
 		cont = player_moved or objects_moved
 		for child in get_tile_children():
 			child.add_animation()
@@ -341,7 +341,6 @@ func move(input_direction):
 	self.set_can_move(true)
 
 	for child in get_tile_children():
-		print(child.animation_queue.size())
 		child.empty_and_execute_animation_queue()
 
 	update_player_sprites()

@@ -2,7 +2,6 @@
 
 [sub_resource type="StreamTexture" id=1]
 flags = 4
-load_path = "res://.import/worldMap.png-a0064ccfa834688d9db902fb3d00cab4.stex"
 
 [resource]
 0/name = "worldMap.png 0"

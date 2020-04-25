@@ -54,7 +54,10 @@ func get_direction(v2) -> Vector2:
 # It also calls custom_currently_pushable, which is a function that calls
 # to see if the current tile can be pushed into the given tile_obj
 # Multiple times every substep
-func check_currently_pushable(direction) -> bool:
+#
+# If player_has_moved is false, this means that in the current substep the player
+# has not moved. This means that when pushed into a player, the player should move.
+func check_currently_pushable(direction, player_has_moved = true) -> bool:
 	var target = world_pos + direction
 	var pushable = true
 	if check_outside_map(target):
@@ -62,8 +65,11 @@ func check_currently_pushable(direction) -> bool:
 
 	for tile_obj in Grid.get_cell_child(target):
 		if tile_obj and tile_obj.is_player():
-			if tile_obj.check_currently_pushable(direction):
-				continue
+			if player_has_moved:
+				if tile_obj.check_currently_pushable(direction):
+					continue
+			else:
+				return false
 		if custom_currently_pushable(tile_obj, direction):
 			continue
 		if !tile_obj.custom_can_get_pushed_into(self, direction):
@@ -255,7 +261,6 @@ func animate_step():
 		if animation_step != null:
 			var prev_pos = animation_step.old_pos
 			var new_pos = animation_step.new_pos
-			print(prev_pos, new_pos)
 			if prev_pos != null and new_pos != null:
 				animate_movement(prev_pos, new_pos, false)
 
