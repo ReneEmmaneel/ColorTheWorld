@@ -31,6 +31,9 @@ margin_top = 200.0
 margin_right = 624.0
 margin_bottom = 540.0
 custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ContinueLevelButton" parent="Menu" instance=ExtResource( 2 )]
 margin_right = 224.0

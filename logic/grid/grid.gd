@@ -98,6 +98,7 @@ func _process(_delta):
 
 func start_move(input_direction):
 	if check_move(input_direction):
+		music.play_sound("move")
 		move(input_direction)
 
 func win():
