@@ -1,13 +1,20 @@
 extends Node2D
 
-func _ready():
-	$Menu/ContinueLevelButton.grab_focus()
-	for button in $Menu.get_children():
+func _ready():	
+	var Camera = get_parent().get_parent().get_node("Camera2D")
+	var screen_size = global.get_screen_size()
+	print(Camera.zoom)
+	print(Camera.position)
+	position = - screen_size / 2 + Camera.position
+	$Pos.rect_size = screen_size
+
+	$Pos/Menu/ContinueLevelButton.grab_focus()
+	for button in $Pos/Menu.get_children():
 		button.connect("pressed", self, "_on_button_pressed", [button.scene_to_load, button.save_level, button])
 
 
 func _on_button_pressed(scene_to_load, save_level, button):
-	if $Menu/ContinueLevelButton and button == $Menu/ContinueLevelButton:
+	if $Pos/Menu/ContinueLevelButton and button == $Pos/Menu/ContinueLevelButton:
 		get_parent().cancel_pressed()
 
 	if save_level:
