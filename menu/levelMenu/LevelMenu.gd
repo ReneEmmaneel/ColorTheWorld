@@ -1,10 +1,8 @@
 extends Node2D
 
-func _ready():	
+func _ready():
 	var Camera = get_parent().get_parent().get_node("Camera2D")
 	var screen_size = global.get_screen_size()
-	print(Camera.zoom)
-	print(Camera.position)
 	position = - screen_size / 2 + Camera.position
 	$Pos.rect_size = screen_size
 

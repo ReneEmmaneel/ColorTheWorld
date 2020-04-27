@@ -1,8 +1,8 @@
 extends TileMap
 
 var prev_movement = Vector2()
-var Player
 var Worlds
+
 var player_world_pos
 
 export (int) var camera_width
@@ -18,7 +18,6 @@ func get_level(coor):
 	pass
 
 func _ready():
-	Player = $"../Player"
 	Worlds = $"../Worlds"
 
 	resize_camera()
@@ -26,12 +25,6 @@ func _ready():
 	for tile in get_used_cells():
 		var target = get_cellv(tile)
 		var level = get_level_id(tile)
-
-		#Put player on the right tile
-		if (global.last_level == 0 and target == START) or (level == global.last_level):
-			player_world_pos = tile
-			Player.position = map_to_world(tile) + cell_size / 2
-			check_camera_pos()
 
 		#Start unveiling all playable levels starting at the START tile
 		if target == START:
@@ -49,6 +42,7 @@ func _ready():
 				$"../UnbeatenLevel".set_cellv(tile, 0)
 
 	Worlds.remove_unused_world_tiles()
+
 
 func get_level_id(tile):
 	var target = get_cellv(tile)
@@ -76,13 +70,14 @@ func show_tiles(tile):
 func _process(delta):
 	if !get_parent().is_paused():
 		if Input.is_action_pressed("ui_accept"):
-			var tile = get_cellv(player_world_pos)
-			if tile >= 0 and tile <= 19:
-				var level = get_level_id(player_world_pos)
-				load_level(level)
-		var input_direction = get_input_direction()
-		if input_direction:
-			move_player(input_direction)
+			var tiles = get_parent().get_node("World1").get_node("TileMap").get_tile_children()
+			for tile in tiles:
+				if tile.is_player:
+					print(tile.world_pos)
+					var level_tile = get_cellv(tile.world_pos)
+					if level_tile >= 0 and level_tile <= 19:
+						var level = get_level_id(tile.world_pos)
+						load_level(level)
 
 func load_level(level):
 	var level_scene_path = global.get_level_scene(level)
@@ -126,25 +121,7 @@ func check_camera_pos():
 			done = false
 
 func move_player(input_direction):
-	if get_cellv(player_world_pos + input_direction) == EMPTY:
-		return
-	player_world_pos += input_direction
-
-	Player.position = map_to_world(player_world_pos) + cell_size / 2
-	set_process(false)
-
 	check_camera_pos()
-
-	var AnimationPlayer = $"../Player/AnimationPlayer"
-	var Tween = $"../Player/Tween"
-	var Pivot = $"../Player/Pivot"
-	AnimationPlayer.play("Walk")
-	Pivot.position = -input_direction * 64
-	Tween.interpolate_property(Pivot, "position", -input_direction * 64, Vector2(), global.animation_speed, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	Tween.start()
-	Player.position = map_to_world(player_world_pos) + cell_size / 2
-	yield(Tween, "tween_completed")
-	set_process(true)
 
 func get_input_direction():
 	var curr_movement = Vector2(

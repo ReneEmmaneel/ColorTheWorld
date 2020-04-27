@@ -63,9 +63,9 @@ func cancel_pressed():
 		add_child(menu_instance)
 
 func _process(_delta):
-	if won:
+	if won && !get_parent().is_world_level:
 		return
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("ui_cancel") && !get_parent().is_world_level:
 		cancel_pressed()
 	if !paused and can_move:
 		if Input.is_action_pressed("ui_reset"):
@@ -346,7 +346,7 @@ func move(input_direction):
 
 	update_player_sprites()
 
-	if check_won():
+	if check_won() && !get_parent().is_world_level:
 		win()
 
 func get_input_direction():

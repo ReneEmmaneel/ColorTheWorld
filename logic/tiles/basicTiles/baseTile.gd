@@ -91,6 +91,13 @@ func check_currently_pushable(direction, player_has_moved = true) -> bool:
 # This will be called once every turn
 func is_possible_move(direction):
 	var target = world_pos + direction
+	var level = get_parent().get_parent()
+	if level.is_world_level:
+		if is_player():
+			var WorldTiles = level.get_parent().get_node("WorldTiles")
+			if WorldTiles.get_cellv(target) == -1:
+				return
+
 	if is_player():
 		if check_outside_map(target):
 			return false

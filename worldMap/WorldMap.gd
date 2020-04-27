@@ -23,7 +23,14 @@ func back_to_titlescreen():
 
 func _ready():
 	pass
+	#var world_level_instance = load_world_level("res://worldMap/WorldMapLevels/World1.tscn")
+	#add_child(world_level_instance)
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		cancel_pressed()
+
+func load_world_level(path):
+	var world_level = load(path)
+	var world_level_instance = world_level.instance()
+	return world_level_instance
