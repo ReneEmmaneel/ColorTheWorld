@@ -63,6 +63,9 @@ func check_currently_pushable(direction, player_has_moved = true) -> bool:
 	if check_outside_map(target):
 		return false
 
+	if !self.exist:
+		return false
+
 	for tile_obj in Grid.get_cell_child(target):
 		if tile_obj and tile_obj.is_player():
 			if player_has_moved:
