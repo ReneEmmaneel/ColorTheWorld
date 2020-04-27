@@ -12,30 +12,17 @@ func set_can_move(boolean):
 	can_move = boolean
 
 func _ready():
+	if get_parent().is_world_level && global.worldmap_level_save.size() > 0:
+		for tile in global.worldmap_level_save:
+			var instance = create_scene_instance_type(tile[0], tile[1])
+			instance.create_from_save(tile[2])
+		for tile in get_used_cells():
+			set_cellv(tile, EMPTY)
+		return
+
 	for tile in get_used_cells():
 		var target = get_cellv(tile)
-		match target:
-			WALL:
-				create_scene_instance("res://logic/tiles/wall/wall.tscn", tile)
-			DOOR:
-				create_scene_instance("res://logic/tiles/door/door.tscn", tile)
-			GREY, BLUE:
-				var scene_instance = create_scene_instance("res://logic/tiles/player/player.tscn", tile)
-				if target == BLUE:
-					scene_instance.make_player()
-					scene_instance.change_sprite_to_blue()
-			BLOCK:
-				create_scene_instance("res://logic/tiles/block/block.tscn", tile)
-			KEY:
-				create_scene_instance("res://logic/tiles/key/key.tscn", tile)
-			BOMB:
-				create_scene_instance("res://logic/tiles/bomb/bomb.tscn", tile)
-			WALL_CRACKED:
-				create_scene_instance("res://logic/tiles/wall_cracked/wall_cracked.tscn", tile)
-			SNOWBALL:
-				create_scene_instance("res://logic/tiles/snowball/snowball.tscn", tile)
-			global.Tiles.ELEC_GATE:
-				create_scene_instance("res://logic/tiles/elec_gate/elec_gate.tscn", tile)
+		create_scene_instance_type(target, tile)
 
 	for child in get_tile_children():
 		if child.is_player():
@@ -43,6 +30,32 @@ func _ready():
 	for child in get_tile_children():
 		if child.is_player():
 			child.animate_step()
+
+func create_scene_instance_type(target, tile):
+	var instance
+	match target:
+		WALL:
+			instance = create_scene_instance("res://logic/tiles/wall/wall.tscn", tile)
+		DOOR:
+			instance = create_scene_instance("res://logic/tiles/door/door.tscn", tile)
+		GREY, BLUE:
+			instance = create_scene_instance("res://logic/tiles/player/player.tscn", tile)
+			if target == BLUE:
+				instance.make_player()
+				instance.change_sprite_to_blue()
+		BLOCK:
+			instance = create_scene_instance("res://logic/tiles/block/block.tscn", tile)
+		KEY:
+			instance = create_scene_instance("res://logic/tiles/key/key.tscn", tile)
+		BOMB:
+			instance = create_scene_instance("res://logic/tiles/bomb/bomb.tscn", tile)
+		WALL_CRACKED:
+			instance = create_scene_instance("res://logic/tiles/wall_cracked/wall_cracked.tscn", tile)
+		SNOWBALL:
+			instance = create_scene_instance("res://logic/tiles/snowball/snowball.tscn", tile)
+		global.Tiles.ELEC_GATE:
+			instance = create_scene_instance("res://logic/tiles/elec_gate/elec_gate.tscn", tile)
+	return instance
 
 func get_tile_children():
 	var children = []
@@ -55,17 +68,19 @@ func get_tile_children():
 func cancel_pressed():
 	if paused:
 		paused = false
-		remove_child(menu_instance)
+		if !get_parent().is_world_level:
+			remove_child(menu_instance)
 	else:
 		paused = true
-		var menu = load("res://menu/levelMenu/LevelMenu.tscn")
-		menu_instance = menu.instance()
-		add_child(menu_instance)
+		if !get_parent().is_world_level:
+			var menu = load("res://menu/levelMenu/LevelMenu.tscn")
+			menu_instance = menu.instance()
+			add_child(menu_instance)
 
 func _process(_delta):
 	if won && !get_parent().is_world_level:
 		return
-	if Input.is_action_just_pressed("ui_cancel") && !get_parent().is_world_level:
+	if Input.is_action_just_pressed("ui_cancel"):
 		cancel_pressed()
 	if !paused and can_move:
 		if Input.is_action_pressed("ui_reset"):

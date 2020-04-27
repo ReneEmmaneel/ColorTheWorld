@@ -84,3 +84,10 @@ func color_blue():
 			if child and child.can_be_player and !child.is_player():
 				child.make_player()
 				child.color_blue()
+
+func make_save():
+	return is_player
+
+func create_from_save(data):
+	is_player = data
+	change_sprite_to_blue()

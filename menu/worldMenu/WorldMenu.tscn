@@ -10,15 +10,18 @@
 size = 32
 font_data = ExtResource( 4 )
 
-[node name="WorldMenu" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="WorldMenu" type="Node2D"]
+z_index = 101
 script = ExtResource( 1 )
+
+[node name="Pos" type="ReferenceRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="Pos"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.121569, 0.109804, 0.141176, 0.623529 )
@@ -26,38 +29,42 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect2" type="ColorRect" parent="."]
+[node name="ColorRect2" type="ColorRect" parent="Pos"]
 anchor_left = 0.1
 anchor_right = 0.9
 anchor_bottom = 1.0
+margin_left = -4.0
+margin_right = -3.99994
 color = Color( 0.121569, 0.109804, 0.141176, 0.964706 )
 
-[node name="Menu" type="VBoxContainer" parent="."]
+[node name="Menu" type="VBoxContainer" parent="Pos"]
 anchor_left = 0.5
 anchor_top = 0.2
 anchor_right = 0.5
 anchor_bottom = 0.8
-margin_left = -150.0
-margin_right = 150.0
+margin_left = -170.0
+margin_top = -8.0
+margin_right = 130.0
+margin_bottom = 158.0
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BackToWorldmapButton" parent="Menu" instance=ExtResource( 2 )]
+[node name="BackToWorldmapButton" parent="Pos/Menu" instance=ExtResource( 2 )]
 margin_right = 300.0
 
-[node name="ContinueGameButton" parent="Menu" instance=ExtResource( 3 )]
+[node name="ContinueGameButton" parent="Pos/Menu" instance=ExtResource( 3 )]
 margin_top = 70.0
 margin_right = 300.0
 margin_bottom = 120.0
 
-[node name="Mute" parent="Menu" instance=ExtResource( 5 )]
+[node name="Mute" parent="Pos/Menu" instance=ExtResource( 5 )]
 margin_top = 140.0
 margin_right = 300.0
 margin_bottom = 190.0
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="Pos"]
 margin_right = 1024.0
 margin_bottom = 156.126
 custom_fonts/font = SubResource( 1 )

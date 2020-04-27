@@ -293,5 +293,11 @@ func move_into(tile_obj, direction):
 func do_when_activated():
 	return
 
+func make_save():
+	pass
+
+func create_from_save(data):
+	pass
+
 func _ready():
 	pass

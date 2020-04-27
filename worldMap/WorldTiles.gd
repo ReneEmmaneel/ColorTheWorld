@@ -69,17 +69,19 @@ func show_tiles(tile):
 
 func _process(delta):
 	if !get_parent().is_paused():
+		check_camera_pos()
 		if Input.is_action_pressed("ui_accept"):
-			var tiles = get_parent().get_node("World1").get_node("TileMap").get_tile_children()
+			var tiles = get_parent().get_node("WorldLevel").get_node("TileMap").get_tile_children()
 			for tile in tiles:
 				if tile.is_player:
-					print(tile.world_pos)
 					var level_tile = get_cellv(tile.world_pos)
 					if level_tile >= 0 and level_tile <= 19:
 						var level = get_level_id(tile.world_pos)
 						load_level(level)
 
 func load_level(level):
+	set_process(false)
+	global.save_worldmap_level()
 	var level_scene_path = global.get_level_scene(level)
 	if level_scene_path:
 		var Fade = $"../Fade"
@@ -103,25 +105,28 @@ func move_camera(direction):
 
 func check_camera_pos():
 	#x pos starts at 1, while y pos starts at 0
+
+
 	var done = false
 	while !done:
 		done = true
-		if (player_world_pos[0] < camera_pos[0] * camera_width):
-			move_camera(Vector2(-1,0))
-			done = false
-		elif (player_world_pos[0] > (camera_pos[0] + 1) * camera_width - 1):
-			move_camera(Vector2(1,0))
-			done = false
+		var tiles = get_parent().get_node("WorldLevel").get_node("TileMap").get_tile_children()
+		for tile in tiles:
+			if tile.is_player:
+				player_world_pos = tile.world_pos
+				if (player_world_pos[0] < camera_pos[0] * camera_width):
+					move_camera(Vector2(-1,0))
+					done = false
+				elif (player_world_pos[0] > (camera_pos[0] + 1) * camera_width - 1):
+					move_camera(Vector2(1,0))
+					done = false
 
-		if (player_world_pos[1] < camera_pos[1] * camera_height):
-			move_camera(Vector2(0,-1))
-			done = false
-		elif (player_world_pos[1] > (camera_pos[1] + 1) * camera_height - 1):
-			move_camera(Vector2(0,1))
-			done = false
-
-func move_player(input_direction):
-	check_camera_pos()
+				if (player_world_pos[1] < camera_pos[1] * camera_height):
+					move_camera(Vector2(0,-1))
+					done = false
+				elif (player_world_pos[1] > (camera_pos[1] + 1) * camera_height - 1):
+					move_camera(Vector2(0,1))
+					done = false
 
 func get_input_direction():
 	var curr_movement = Vector2(
