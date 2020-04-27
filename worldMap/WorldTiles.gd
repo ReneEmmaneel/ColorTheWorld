@@ -69,7 +69,6 @@ func show_tiles(tile):
 
 func _process(delta):
 	if !get_parent().is_paused():
-		check_camera_pos()
 		if Input.is_action_pressed("ui_accept"):
 			var tiles = get_parent().get_node("WorldLevel").get_node("TileMap").get_tile_children()
 			for tile in tiles:
@@ -104,15 +103,12 @@ func move_camera(direction):
 	Camera.set_offset(offset)
 
 func check_camera_pos():
-	#x pos starts at 1, while y pos starts at 0
-
-
 	var done = false
 	while !done:
 		done = true
 		var tiles = get_parent().get_node("WorldLevel").get_node("TileMap").get_tile_children()
 		for tile in tiles:
-			if tile.is_player:
+			if tile.is_player: #todo: what if multiple is_player?
 				player_world_pos = tile.world_pos
 				if (player_world_pos[0] < camera_pos[0] * camera_width):
 					move_camera(Vector2(-1,0))

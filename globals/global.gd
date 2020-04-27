@@ -7,7 +7,7 @@ var last_level = 0
 
 var animation_speed = 0.15
 
-var debug_show_all_levels = false
+var debug_show_all_levels = true
 var debug_start_muted = true
 var debug_shorcuts = true
 
@@ -40,6 +40,10 @@ func _process(delta):
 	if debug_shorcuts:
 		if Input.is_action_just_pressed("ui_exit_game"):
 			get_tree().quit()
+		if Input.is_action_just_pressed("debug_next_level"):
+			var tm = get_tree().get_root().get_child(2).get_node("TileMap")
+			if tm:
+				tm.win()
 
 func level_scenes_to_list(path):
 	var levels = []

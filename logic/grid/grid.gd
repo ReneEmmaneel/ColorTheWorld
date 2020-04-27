@@ -11,7 +11,20 @@ var can_move = true
 func set_can_move(boolean):
 	can_move = boolean
 
+func check_camera_pos():
+	var wm = get_tree().get_root().get_node("WorldMap")
+	if wm:
+		var wt = wm.get_node("WorldTiles")
+		if wt:
+			print("Check camera pos")
+			wt.check_camera_pos()
+		else:
+			print("no wt")
+	else:
+		print("no wm")
+
 func _ready():
+	print("ready")
 	if get_parent().is_world_level && global.worldmap_level_save.size() > 0:
 		for tile in global.worldmap_level_save:
 			var instance = create_scene_instance_type(tile[0], tile[1])
@@ -20,11 +33,13 @@ func _ready():
 				instance.prev_positions = tile[2]
 		for tile in get_used_cells():
 			set_cellv(tile, EMPTY)
+		check_camera_pos()
 		return
 
 	for tile in get_used_cells():
 		var target = get_cellv(tile)
 		create_scene_instance_type(target, tile)
+
 
 	for child in get_tile_children():
 		if child.is_player():
@@ -117,6 +132,7 @@ func start_move(input_direction):
 	if check_move(input_direction):
 		music.play_sound("move")
 		move(input_direction)
+	check_camera_pos()
 
 func win():
 	won = true
