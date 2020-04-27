@@ -11,3 +11,6 @@ func _on_button_pressed(scene_to_load, save_level, button):
 		get_parent().cancel_pressed()
 	if $Pos/Menu/ContinueGameButton and button == $Pos/Menu/ContinueGameButton:
 		get_parent().back_to_titlescreen()
+	if $Pos/Menu/ResetWorldButton and button == $Pos/Menu/ResetWorldButton:
+		global.worldmap_level_save = []
+		get_parent().reset_worldmap()

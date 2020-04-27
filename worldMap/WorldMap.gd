@@ -33,3 +33,7 @@ func load_world_level(path):
 	var world_level = load(path)
 	var world_level_instance = world_level.instance()
 	return world_level_instance
+
+func reset_worldmap():
+	cancel_pressed()
+	get_tree().reload_current_scene()

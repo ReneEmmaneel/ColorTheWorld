@@ -7,7 +7,7 @@ var last_level = 0
 
 var animation_speed = 0.15
 
-var debug_show_all_levels = true
+var debug_show_all_levels = false
 var debug_start_muted = true
 var debug_shorcuts = true
 
@@ -20,7 +20,7 @@ func save_worldmap_level():
 	var WorldMap = get_tree().get_root().get_node("WorldMap")
 	if WorldMap:
 		for tile in WorldMap.get_node("WorldLevel").get_node("TileMap").get_tile_children():
-			worldmap_level_save.append([tile.type, tile.world_pos, tile.make_save()])
+			worldmap_level_save.append([tile.type, tile.world_pos, tile.prev_positions, tile.make_save()])
 
 func _ready():
 	all_level_scenes = level_scenes_to_list("res://levels/")
