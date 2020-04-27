@@ -111,6 +111,8 @@ func _process(_delta):
 			for wire_sprite in update_wires()[0]:
 				wire_sprite[0].set_sprites(wire_sprite[1])
 
+			check_camera_pos()
+
 			var t = Timer.new()
 			t.set_wait_time(global.animation_speed)
 			t.set_one_shot(true)
