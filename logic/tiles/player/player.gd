@@ -90,4 +90,5 @@ func make_save():
 
 func create_from_save(data):
 	is_player = data
-	change_sprite_to_blue()
+	if is_player:
+		change_sprite_to_blue()
