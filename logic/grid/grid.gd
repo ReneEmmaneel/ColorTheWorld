@@ -16,15 +16,9 @@ func check_camera_pos():
 	if wm:
 		var wt = wm.get_node("WorldTiles")
 		if wt:
-			print("Check camera pos")
 			wt.check_camera_pos()
-		else:
-			print("no wt")
-	else:
-		print("no wm")
 
 func _ready():
-	print("ready")
 	if get_parent().is_world_level && global.worldmap_level_save.size() > 0:
 		for tile in global.worldmap_level_save:
 			var instance = create_scene_instance_type(tile[0], tile[1])

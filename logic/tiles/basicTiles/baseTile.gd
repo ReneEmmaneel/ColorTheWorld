@@ -68,8 +68,9 @@ func check_currently_pushable(direction, player_has_moved = true) -> bool:
 
 	for tile_obj in Grid.get_cell_child(target):
 		if tile_obj and tile_obj.is_player():
+			print(player_has_moved)
 			if player_has_moved:
-				if tile_obj.check_currently_pushable(direction):
+				if tile_obj.check_currently_pushable(direction, player_has_moved):
 					continue
 			else:
 				return false
@@ -80,7 +81,7 @@ func check_currently_pushable(direction, player_has_moved = true) -> bool:
 		if is_breakable() and tile_obj.type == BOMB:
 			continue
 		if tile_obj.is_pushable():
-			if tile_obj.check_currently_pushable(direction):
+			if tile_obj.check_currently_pushable(direction, player_has_moved):
 				continue
 		if tile_obj.can_move_onto:
 			continue
