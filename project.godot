@@ -18,6 +18,7 @@ _global_script_class_icons={
 config/name="ColorTheWorld"
 run/main_scene="res://menu/titleScreen/TitleScreen.tscn"
 config/icon="res://icon.png"
+config/version="0.0.1"
 
 [autoload]
 

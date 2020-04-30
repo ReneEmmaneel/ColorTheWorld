@@ -22,9 +22,7 @@ func _ready():
 	if get_parent().is_world_level && global.worldmap_level_save.size() > 0:
 		for tile in global.worldmap_level_save:
 			var instance = create_scene_instance_type(tile[0], tile[1])
-			instance.create_from_save(tile[3])
-			if tile[2].size() > 0:
-				instance.prev_positions = tile[2]
+			instance.create_from_save(tile[2])
 		for tile in get_used_cells():
 			set_cellv(tile, EMPTY)
 		check_camera_pos()

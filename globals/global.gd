@@ -20,7 +20,25 @@ func save_worldmap_level():
 	var WorldMap = get_tree().get_root().get_node("WorldMap")
 	if WorldMap:
 		for tile in WorldMap.get_node("WorldLevel").get_node("TileMap").get_tile_children():
-			worldmap_level_save.append([tile.type, tile.world_pos, tile.prev_positions, tile.make_save()])
+			worldmap_level_save.append([tile.type, tile.world_pos, tile.make_save()])
+
+func save():
+	var save_game = File.new()
+	save_game.open("user://savegame.save", File.WRITE)
+	save_game.store_line("test")
+	save_game.close()
+
+func load():
+	var save_game = File.new()
+	if not save_game.file_exists("user://savegame.save"):
+		print("no save data")
+		return # Error! We don't have a save to load.
+	save_game.open("user://savegame.save", File.READ)
+
+	while not save_game.eof_reached():
+		print(save_game.get_line())
+
+	save_game.close()
 
 func _ready():
 	all_level_scenes = level_scenes_to_list("res://levels/")
@@ -39,11 +57,15 @@ func level_not_beaten(level):
 func _process(delta):
 	if debug_shorcuts:
 		if Input.is_action_just_pressed("ui_exit_game"):
-			get_tree().quit()
+			global.quit_game()
 		if Input.is_action_just_pressed("debug_next_level"):
 			var tm = get_tree().get_root().get_child(2).get_node("TileMap")
 			if tm:
 				tm.win()
+
+func quit_game():
+	save()
+	get_tree().quit()
 
 func level_scenes_to_list(path):
 	var levels = []
