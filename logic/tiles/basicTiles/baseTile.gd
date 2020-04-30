@@ -23,6 +23,7 @@ var type
 var world_pos
 var exist = true
 var prev_positions = []
+var move_direction = null
 
 func is_pushable() -> bool:
 	return is_pushable
@@ -70,7 +71,6 @@ func check_currently_pushable(direction, player_has_moved = true) -> bool:
 		if tile_obj == null:
 			return false
 		if tile_obj and tile_obj.is_player():
-			print(player_has_moved)
 			if player_has_moved:
 				if tile_obj.check_currently_pushable(direction, player_has_moved):
 					continue

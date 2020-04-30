@@ -175,7 +175,6 @@ func create_scene_instance(path, tile):
 	var scene_instance = scene.instance()
 
 	if get_cellv(tile) == global.Tiles.PISTON:
-		print(direction)
 		scene_instance.rotate(direction)
 
 	set_cellv(tile, EMPTY)
@@ -241,15 +240,18 @@ func move_objects(input_direction, player_has_moved = false):
 							#check if on ice
 							var tile_bg_obj_type = get_cell_background_child(child.world_pos)
 							var target = child.world_pos + input_direction
+							var direction = child.move_direction
+							if direction == null:
+								direction = input_direction
 							if tile_bg_obj_type == ICE:
-								if child.check_currently_pushable(input_direction, player_has_moved):
-									child.move(input_direction)
+								if child.check_currently_pushable(direction, player_has_moved):
+									child.move(direction)
 									pushed = true
 
 							#check if snowball
 							elif child.type == SNOWBALL:
-								if child.check_currently_pushable(input_direction, player_has_moved):
-									child.move(input_direction)
+								if child.check_currently_pushable(direction, player_has_moved):
+									child.move(direction)
 									pushed = true
 	return pushed
 
@@ -347,15 +349,18 @@ func move(input_direction):
 	for child in get_tile_children():
 		child.add_prev_position()
 	move_children(input_direction)
-	for child in get_tile_children():
-		child.add_animation()
-	color_blue()
 
 	var wires_sprites = []
 	var elec_gate_sprites = []
+	var piston_sprites = []
 	var elec_sprite = update_wires()
 	wires_sprites.append(elec_sprite[0])
 	elec_gate_sprites.append(elec_sprite[1])
+	piston_sprites.append(elec_sprite[2])
+
+	for child in get_tile_children():
+		child.add_animation()
+	color_blue()
 
 	var steps = 0
 	var cont = true
@@ -372,6 +377,7 @@ func move(input_direction):
 		elec_sprite = update_wires()
 		wires_sprites.append(elec_sprite[0])
 		elec_gate_sprites.append(elec_sprite[1])
+		piston_sprites.append(elec_sprite[2])
 
 	for child in get_tile_children():
 		if child.record_last_move:
@@ -390,6 +396,9 @@ func move(input_direction):
 		for elec_gate in elec_gate_sprites[i]:
 			elec_gate[0].set_sprite(elec_gate[1])
 
+		for piston in piston_sprites[i]:
+			piston[0].set_sprite(piston[1])
+
 		#messy workaround, this should be doable without knowing the animation timing
 		var t = Timer.new()
 		t.set_wait_time(global.animation_speed)
@@ -402,6 +411,7 @@ func move(input_direction):
 
 	for child in get_tile_children():
 		child.empty_and_execute_animation_queue()
+		child.move_direction = null
 
 	update_player_sprites()
 
