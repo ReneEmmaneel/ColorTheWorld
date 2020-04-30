@@ -50,7 +50,7 @@ format = 1
 position = Vector2( 0, -2 )
 tile_set = ExtResource( 2 )
 format = 1
-tile_data = PoolIntArray( 65536, 1, 0, 65537, 1, 0, 65538, 1, 0, 65539, 1, 0, 131072, 1, 0, 131073, 9, 0, 131075, 1, 0, 196608, 1, 0, 196611, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 393221, 2, 0 )
+tile_data = PoolIntArray( 65536, 1, 0, 65541, 12, 0, 65542, 3, 0, 65543, 3, 0, 131072, 1, 0, 262146, 9, 0, 262152, 11, 0, 393216, 2, 0 )
 script = ExtResource( 4 )
 
 [node name="Camera2D" type="Camera2D" parent="."]

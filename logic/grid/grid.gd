@@ -66,6 +66,8 @@ func create_scene_instance_type(target, tile):
 			instance = create_scene_instance("res://logic/tiles/snowball/snowball.tscn", tile)
 		global.Tiles.ELEC_GATE:
 			instance = create_scene_instance("res://logic/tiles/elec_gate/elec_gate.tscn", tile)
+		global.Tiles.PISTON:
+			instance = create_scene_instance("res://logic/tiles/piston/piston.tscn", tile)
 	return instance
 
 func get_tile_children():
@@ -176,6 +178,8 @@ func get_cell_child(position):
 	for child in get_tile_children():
 		if child.world_pos == position and child.exist and !child.is_background():
 			children.append(child)
+		elif child.type == global.Tiles.PISTON && child.world_pos + child.direction_facing == position && child.is_activated:
+			children.append(null)
 	return children
 
 func get_cell_background_child(position):
@@ -268,6 +272,9 @@ func activate_wires_recursive(tile, Wire):
 		if cell && cell.get("type") && cell.type == global.Tiles.ELEC_GATE:
 			if cell.world_pos == tile:
 				cell.close_gate()
+		if cell && cell.get("type") && cell.type == global.Tiles.PISTON:
+			if cell.world_pos == tile:
+				cell.extend_piston()
 
 func get_wire_scenes():
 	var Parent = $".."
@@ -289,6 +296,8 @@ func update_wires():
 	for child in get_tile_children():
 		if child.type == ELEC_GATE:
 			child.open_gate()
+		if child.type == global.Tiles.PISTON:
+			child.retract_piston()
 
 	var wire_sprites = []
 	for Wire in wire_scenes:
@@ -307,11 +316,14 @@ func update_wires():
 		wire_sprites.append([Wire, curr_wire_sprites])
 
 	var elec_gates_status = []
+	var piston_status = []
 	for child in get_children():
 		if child && child.get("type") && child.type == global.Tiles.ELEC_GATE:
 			elec_gates_status.append([child, child.open])
+		if child && child.get("type") && child.type == global.Tiles.PISTON:
+			piston_status.append([child, child.is_activated])
 
-	return [wire_sprites, elec_gates_status]
+	return [wire_sprites, elec_gates_status, piston_status]
 
 func move(input_direction):
 	for child in get_tile_children():

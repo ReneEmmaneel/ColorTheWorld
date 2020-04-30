@@ -67,6 +67,8 @@ func check_currently_pushable(direction, player_has_moved = true) -> bool:
 		return false
 
 	for tile_obj in Grid.get_cell_child(target):
+		if tile_obj == null:
+			return false
 		if tile_obj and tile_obj.is_player():
 			print(player_has_moved)
 			if player_has_moved:
@@ -104,6 +106,8 @@ func is_possible_move(direction):
 			return false
 
 		for tile_obj in Grid.get_cell_child(target):
+			if tile_obj == null:
+				return false
 			if !tile_obj.custom_can_get_pushed_into(self, direction):
 				return false
 			if !tile_obj or tile_obj.is_player() or !tile_obj.exist:

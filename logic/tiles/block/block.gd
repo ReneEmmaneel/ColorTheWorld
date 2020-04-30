@@ -40,13 +40,15 @@ func custom_animate_movement():
 func move(direction):
 	var target = world_pos + direction
 	for tile_obj in Grid.get_cell_child(target):
+		if tile_obj == null:
+			return #should not exist
 		if tile_obj and tile_obj.exist:
 			move_into(tile_obj, direction)
 		custom_move(tile_obj, direction)
 	world_pos = target
 
 #function that triggers when the tile is being moved towars tile_obj in the given direction
-#the standard function does nothing special, 
+#the standard function does nothing special,
 #and just calls the moved_into function from the receiving tile_obj
 func move_into(tile_obj, direction):
 	tile_obj.moved_into(self, direction)

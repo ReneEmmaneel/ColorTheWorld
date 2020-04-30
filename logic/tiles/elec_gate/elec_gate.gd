@@ -10,7 +10,7 @@ func _ready():
 func open_gate():
 	for child in $"..".get_cell_child(world_pos):
 		if child != self:
-			if !child.is_background:
+			if child == null || !child.is_background:
 				return
 	$Sprite.play("closed")
 	open = false

@@ -24,7 +24,7 @@ func change_sprite():
 	var curr = 1
 	for dir in [Vector2(1,0), Vector2(0,-1), Vector2(-1, 0), Vector2(0, 1)]:
 		for child in Grid.get_cell_child(world_pos + dir):
-			if child and child.can_be_player and child.is_player():
+			if child and child != null and child.can_be_player and child.is_player():
 				num += curr
 		curr *= 2
 	$Pivot/PlayerSprite.set_frame(num)
@@ -81,6 +81,8 @@ func custom_animate_movement():
 func color_blue():
 	for dir in [Vector2(1,0), Vector2(0,1), Vector2(-1, 0), Vector2(0, -1)]:
 		for child in Grid.get_cell_child(world_pos + dir):
+			if child == null:
+				continue
 			if child and child.can_be_player and !child.is_player():
 				child.make_player()
 				child.color_blue()
