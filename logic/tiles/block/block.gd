@@ -54,6 +54,7 @@ func move_into(tile_obj, direction):
 	tile_obj.moved_into(self, direction)
 
 func moved_into(prev_obj, direction):
+	move_direction = direction
 	move(direction)
 
 func custom_move(tile_obj, direction):
