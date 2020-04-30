@@ -159,9 +159,27 @@ func check_won():
 	return true
 
 func create_scene_instance(path, tile):
-	set_cellv(tile, EMPTY)
+	var xflip = is_cell_x_flipped(tile.x, tile.y)
+	var yflip = is_cell_y_flipped(tile.x, tile.y)
+	var direction
+
+	if !xflip && !yflip:
+		direction = Vector2(1,0)
+	elif xflip && !yflip:
+		direction = Vector2(0,1)
+	elif xflip && yflip:
+		direction = Vector2(-1,0)
+	elif !xflip && yflip:
+		direction = Vector2(0,-1)
 	var scene = load(path)
 	var scene_instance = scene.instance()
+
+	if get_cellv(tile) == global.Tiles.PISTON:
+		print(direction)
+		scene_instance.rotate(direction)
+
+	set_cellv(tile, EMPTY)
+
 	add_child(scene_instance)
 	scene_instance.position = map_to_world(tile) + cell_size / 2
 	scene_instance.world_pos = tile

@@ -17,6 +17,10 @@ func extend_piston():
 	is_activated = true
 	$Sprite.frame = 1
 
+func rotate(direction):
+	direction_facing = direction
+	#$Sprite.rotation = PI #HIER VERDER
+
 func retract_piston():
 	is_activated = false
 	$Sprite.frame = 0
