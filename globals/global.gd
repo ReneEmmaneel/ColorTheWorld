@@ -7,7 +7,7 @@ var last_level = 0
 
 var animation_speed = 0.15
 
-var debug_show_all_levels = false
+var debug_show_all_levels = true
 var debug_start_muted = true
 var debug_shorcuts = true
 
