@@ -35,7 +35,10 @@ func save():
 
 	save_game.close()
 
-
+func delete_save():
+	levels_beaten = []
+	worldmap_level_save = []
+	save()
 
 func load():
 	var save_game = File.new()

@@ -9,9 +9,12 @@ func _ready():
 	$ColorRect.set_size(global.get_screen_size())
 
 func _on_button_pressed(scene_to_load, button):
-	if button == $Menu/Buttons/VBoxContainer/StartGameButton:
+	var container = $Menu/Buttons/VBoxContainer
+	if button == container.get_node("StartGameButton"):
 		global.load()
-	elif button == $Menu/Buttons/VBoxContainer/QuitGameButton:
+	elif button == container.get_node("QuitGameButton"):
 		global.quit_game()
+	elif button == container.get_node("NewGameButton"):
+		global.delete_save()
 	if scene_to_load != "":
 		get_tree().change_scene(scene_to_load)
