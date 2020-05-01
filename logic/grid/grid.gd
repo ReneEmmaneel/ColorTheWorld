@@ -42,6 +42,7 @@ func _ready():
 
 func create_scene_instance_type(target, tile):
 	var instance
+
 	match target:
 		WALL:
 			instance = create_scene_instance("res://logic/tiles/wall/wall.tscn", tile)

@@ -25,11 +25,17 @@ func save_worldmap_level():
 func save():
 	var save_game = File.new()
 	save_game.open("user://savegame.save", File.WRITE)
-	var levels_beaten_line = "levels_beaten:"
-	for level in levels_beaten:
-		levels_beaten_line += str(level) + ","
-	save_game.store_line(levels_beaten_line.left(levels_beaten_line.length() - 1))
+
+	var dict = {
+		beaten = levels_beaten,
+		worldmap = var2str(worldmap_level_save)
+	}
+
+	save_game.store_line(to_json(dict))
+
 	save_game.close()
+
+
 
 func load():
 	var save_game = File.new()
@@ -37,17 +43,11 @@ func load():
 		return # Error! We don't have a save to load.
 	save_game.open("user://savegame.save", File.READ)
 
-	while not save_game.eof_reached():
-		var line = save_game.get_line()
-		var splitted = line.split(":")
-		if splitted.size() == 2:
-			match splitted[0]:
-				"levels_beaten":
-					var levels = splitted[1].split(",")
-					if levels.size() > 0:
-						levels_beaten = []
-						for level in levels:
-							levels_beaten.append(int(level))
+	var json_result = JSON.parse(save_game.get_as_text()).result
+
+	levels_beaten = json_result["beaten"] if json_result.has("beaten") else []
+	if json_result.has("worldmap") and json_result["worldmap"] != null:
+		worldmap_level_save = str2var(json_result["worldmap"])
 
 	save_game.close()
 
