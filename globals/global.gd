@@ -7,7 +7,7 @@ var last_level = 0
 
 var animation_speed = 0.15
 
-var debug_show_all_levels = true
+var debug_show_all_levels = false
 var debug_start_muted = true
 var debug_shorcuts = true
 
@@ -25,18 +25,29 @@ func save_worldmap_level():
 func save():
 	var save_game = File.new()
 	save_game.open("user://savegame.save", File.WRITE)
-	save_game.store_line("test")
+	var levels_beaten_line = "levels_beaten:"
+	for level in levels_beaten:
+		levels_beaten_line += str(level) + ","
+	save_game.store_line(levels_beaten_line.left(levels_beaten_line.length() - 1))
 	save_game.close()
 
 func load():
 	var save_game = File.new()
 	if not save_game.file_exists("user://savegame.save"):
-		print("no save data")
 		return # Error! We don't have a save to load.
 	save_game.open("user://savegame.save", File.READ)
 
 	while not save_game.eof_reached():
-		print(save_game.get_line())
+		var line = save_game.get_line()
+		var splitted = line.split(":")
+		if splitted.size() == 2:
+			match splitted[0]:
+				"levels_beaten":
+					var levels = splitted[1].split(",")
+					if levels.size() > 0:
+						levels_beaten = []
+						for level in levels:
+							levels_beaten.append(int(level))
 
 	save_game.close()
 
