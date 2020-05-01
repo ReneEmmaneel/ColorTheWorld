@@ -27,6 +27,8 @@ music="*res://globals/music.tscn"
 
 [display]
 
+window/size/width=2048
+window/size/height=1052
 window/size/fullscreen=true
 
 [input]
