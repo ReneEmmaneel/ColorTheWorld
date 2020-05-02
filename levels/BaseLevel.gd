@@ -15,6 +15,10 @@ func center_camera():
 		var Camera = $Camera2D
 		Camera.position.x = width * 64 / 2
 		Camera.position.y = height * 64 / 2
+		var screen_size = global.get_screen_size()
+		while width * 64 > screen_size.x || height * 64 > screen_size.y:
+			screen_size *= 1.2
+			Camera.zoom *= 1.2
 
 func color_ground():
 	if !is_world_level:
@@ -25,8 +29,8 @@ func color_ground():
 
 		var screen_size = global.get_screen_size()
 
-		bg.set_global_position(-1 * screen_size / 2 + $Camera2D.position)
-		bg.set_size(screen_size)
+		bg.set_global_position(-1 * (screen_size * $Camera2D.zoom) / 2 + $Camera2D.position)
+		bg.set_size(screen_size * $Camera2D.zoom)
 
 		fg.set_global_position(Vector2(0,0))
 		fg.set_size(Vector2(width * 64, height * 64))

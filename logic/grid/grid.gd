@@ -26,19 +26,19 @@ func _ready():
 		for tile in get_used_cells():
 			set_cellv(tile, EMPTY)
 		check_camera_pos()
-		return
+	else:
+		for tile in get_used_cells():
+			var target = get_cellv(tile)
+			create_scene_instance_type(target, tile)
 
-	for tile in get_used_cells():
-		var target = get_cellv(tile)
-		create_scene_instance_type(target, tile)
-
-
+	update_wires()
 	for child in get_tile_children():
 		if child.is_player():
 			child.color_blue()
 	for child in get_tile_children():
 		if child.is_player():
 			child.animate_step()
+	
 	check_camera_pos()
 
 func create_scene_instance_type(target, tile):

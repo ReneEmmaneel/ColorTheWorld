@@ -15,3 +15,6 @@ func _on_button_pressed(scene_to_load, save_level, button):
 	if $Pos/Menu/ResetWorldButton and button == $Pos/Menu/ResetWorldButton:
 		global.worldmap_level_save = []
 		get_parent().reset_worldmap()
+
+func _process(delta):
+	position = $"../Camera2D".position - global.get_screen_size() / 2

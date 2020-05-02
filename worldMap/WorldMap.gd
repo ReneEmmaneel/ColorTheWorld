@@ -21,7 +21,7 @@ func back_to_titlescreen():
 	get_tree().change_scene("res://menu/titleScreen/TitleScreen.tscn")
 
 func _ready():
-	pass
+	$Fade.play("FadeIn")
 	#var world_level_instance = load_world_level("res://worldMap/WorldMapLevels/World1.tscn")
 	#add_child(world_level_instance)
 
