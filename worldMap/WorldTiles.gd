@@ -20,8 +20,6 @@ func get_level(coor):
 func _ready():
 	Worlds = $"../Worlds"
 
-	resize_camera()
-
 	for tile in get_used_cells():
 		var target = get_cellv(tile)
 		var level = get_level_id(tile)
@@ -88,41 +86,15 @@ func load_level(level):
 		yield(Fade, "animation_finished")
 		get_tree().change_scene(level_scene_path)
 
-func resize_camera():
-	var Camera = $"../Camera2D"
-	var screen_size = global.get_screen_size()
-	Camera.zoom = Vector2(camera_width * 64, camera_height * 64) / screen_size
-
 #When the player moves out of the camera,
 #the camera moves with the given offset
-func move_camera(direction):
-	camera_pos += direction
-	var Camera = $"../Camera2D"
-	var offset = Camera.get_offset()
-	offset += direction * Vector2(64 * camera_width, 64 * camera_height)
-	Camera.set_offset(offset)
+func set_camera():
+	var tiles = get_parent().get_node("WorldLevel").get_node("TileMap").get_tile_children()
+	for tile in tiles:
+		if tile.is_player():
+			$"../Camera2D".set_player_to_follow(tile)
+			return
 
-func check_camera_pos():
-	var done = false
-	while !done:
-		done = true
-		var tiles = get_parent().get_node("WorldLevel").get_node("TileMap").get_tile_children()
-		for tile in tiles:
-			if tile.is_player: #todo: what if multiple is_player?
-				player_world_pos = tile.world_pos
-				if (player_world_pos[0] < camera_pos[0] * camera_width):
-					move_camera(Vector2(-1,0))
-					done = false
-				elif (player_world_pos[0] > (camera_pos[0] + 1) * camera_width - 1):
-					move_camera(Vector2(1,0))
-					done = false
-
-				if (player_world_pos[1] < camera_pos[1] * camera_height):
-					move_camera(Vector2(0,-1))
-					done = false
-				elif (player_world_pos[1] > (camera_pos[1] + 1) * camera_height - 1):
-					move_camera(Vector2(0,1))
-					done = false
 
 func get_input_direction():
 	var curr_movement = Vector2(

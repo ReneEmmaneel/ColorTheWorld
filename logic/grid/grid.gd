@@ -16,7 +16,7 @@ func check_camera_pos():
 	if wm:
 		var wt = wm.get_node("WorldTiles")
 		if wt:
-			wt.check_camera_pos()
+			wt.set_camera()
 
 func _ready():
 	if get_parent().is_world_level && global.worldmap_level_save.size() > 0:
@@ -39,6 +39,7 @@ func _ready():
 	for child in get_tile_children():
 		if child.is_player():
 			child.animate_step()
+	check_camera_pos()
 
 func create_scene_instance_type(target, tile):
 	var instance
