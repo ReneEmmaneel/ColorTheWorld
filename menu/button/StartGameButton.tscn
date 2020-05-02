@@ -4,7 +4,3 @@
 
 [node name="StartGameButton" instance=ExtResource( 1 )]
 scene_to_load = "res://worldMap/WorldMap.tscn"
-
-[node name="Label" parent="." index="0"]
-mouse_filter = 0
-mouse_default_cursor_shape = 2

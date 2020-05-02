@@ -9,6 +9,7 @@ func _ready():
 	$ColorRect.set_size(global.get_screen_size())
 
 func _on_button_pressed(scene_to_load, button):
+	print(button)
 	var container = $Menu/Buttons/VBoxContainer
 	if button == container.get_node("StartGameButton"):
 		global.load()

@@ -9,17 +9,10 @@
 [ext_resource path="res://menu/button/NewGameButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://menu/titleScreen/background_vs.tres" type="Shader" id=8]
 
-[sub_resource type="ShaderMaterial" id=1]
-shader = ExtResource( 8 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 45
-font_data = ExtResource( 2 )
-
-[sub_resource type="VisualShaderNodeColorConstant" id=3]
+[sub_resource type="VisualShaderNodeColorConstant" id=1]
 constant = Color( 0.59375, 0, 1, 1 )
 
-[sub_resource type="VisualShader" id=4]
+[sub_resource type="VisualShader" id=2]
 code = "shader_type spatial;
 
 
@@ -44,12 +37,19 @@ void light() {
 
 }
 "
-nodes/fragment/2/node = SubResource( 3 )
+nodes/fragment/2/node = SubResource( 1 )
 nodes/fragment/2/position = Vector2( 140, 160 )
 nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0 )
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = SubResource( 4 )
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 45
+font_data = ExtResource( 2 )
 
 [node name="TitleScreen" type="Control"]
 theme = ExtResource( 6 )
@@ -58,8 +58,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CenterContainer" type="CenterContainer" parent="."]
+material = SubResource( 3 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource( 1 )
+material = SubResource( 4 )
 margin_right = 1024.0
 margin_bottom = 640.0
 color = Color( 0.25098, 0.239216, 0.239216, 1 )
@@ -82,7 +90,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="Menu"]
 margin_right = 537.0
 margin_bottom = 59.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0.105882, 0.0196078, 0.0196078, 1 )
 text = "color the world"
@@ -103,7 +111,6 @@ margin_bottom = 260.0
 custom_constants/separation = 20
 
 [node name="StartGameButton" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 3 )]
-mouse_default_cursor_shape = 0
 theme = null
 
 [node name="NewGameButton" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 7 )]
@@ -113,20 +120,10 @@ margin_bottom = 120.0
 [node name="Mute" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 5 )]
 margin_top = 140.0
 margin_bottom = 190.0
-mouse_default_cursor_shape = 0
 theme = null
 
 [node name="QuitGameButton" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 210.0
 margin_bottom = 260.0
-mouse_default_cursor_shape = 0
 theme = null
-
-[node name="CenterContainer" type="CenterContainer" parent="."]
-material = SubResource( 5 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 [connection signal="pressed" from="Menu/Buttons/VBoxContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]

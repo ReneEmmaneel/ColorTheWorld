@@ -5,7 +5,5 @@
 [node name="QuitGameButton" instance=ExtResource( 1 )]
 
 [node name="Label" parent="." index="0"]
-mouse_filter = 0
-mouse_default_cursor_shape = 2
 text = "Quit Game"
 [connection signal="pressed" from="." to="." method="_on_ContinueGameButton_pressed"]

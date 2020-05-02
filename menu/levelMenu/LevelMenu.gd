@@ -3,8 +3,8 @@ extends Node2D
 func _ready():
 	var Camera = get_parent().get_parent().get_node("Camera2D")
 	var screen_size = global.get_screen_size()
-	position = - screen_size / 2 + Camera.position
-	$Pos.rect_size = screen_size
+	position = - (screen_size * Camera.zoom) / 2 + Camera.position
+	$Pos.rect_size = screen_size * Camera.zoom
 
 	$Pos/Menu/ContinueLevelButton.grab_focus()
 	for button in $Pos/Menu.get_children():

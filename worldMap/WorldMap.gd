@@ -14,7 +14,6 @@ func cancel_pressed():
 		paused = true
 		var menu = load("res://menu/worldMenu/WorldMenu.tscn")
 		menu_instance = menu.instance()
-		menu_instance.set_position($Camera2D.offset)
 		add_child(menu_instance)
 
 func back_to_titlescreen():
