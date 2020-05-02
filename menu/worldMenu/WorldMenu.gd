@@ -1,7 +1,8 @@
 extends Node2D
 
 func _ready():
-	$Pos.rect_size = Vector2(32*64, 18*64)
+	$Pos.rect_size = global.get_screen_size()
+	position = $"../Camera2D".position - global.get_screen_size() / 2
 	$Pos/Menu/BackToWorldmapButton.grab_focus()
 	for button in $Pos/Menu.get_children():
 		button.connect("pressed", self, "_on_button_pressed", [button.scene_to_load, button.save_level, button])
