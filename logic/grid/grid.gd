@@ -367,20 +367,25 @@ func move(input_direction):
 	var cont = true
 	while cont:
 		steps = steps + 1
+
+		elec_sprite = update_wires()
+		wires_sprites.append(elec_sprite[0])
+		elec_gate_sprites.append(elec_sprite[1])
+		piston_sprites.append(elec_sprite[2])
+		var wire_changed = false
+		if ((wires_sprites[wires_sprites.size() - 2] != wires_sprites[wires_sprites.size() - 1]) ||
+		   (elec_gate_sprites[elec_gate_sprites.size() - 2] != elec_gate_sprites[elec_gate_sprites.size() - 1]) ||
+		   (piston_sprites[piston_sprites.size() - 2] != piston_sprites[piston_sprites.size() - 1])):
+			wire_changed = true
+
 		var player_moved = should_move_children_on_ice(input_direction)
 		if player_moved:
 			move_children(input_direction)
 		var objects_moved = move_objects(input_direction, player_moved)
 		color_blue()
-		elec_sprite = update_wires()
-		wires_sprites.append(elec_sprite[0])
-		elec_gate_sprites.append(elec_sprite[1])
-		piston_sprites.append(elec_sprite[2])
-		cont = player_moved or objects_moved
-		if ((wires_sprites[wires_sprites.size() - 2] != wires_sprites[wires_sprites.size() - 1]) ||
-		   (elec_gate_sprites[elec_gate_sprites.size() - 2] != elec_gate_sprites[elec_gate_sprites.size() - 1]) ||
-		   (piston_sprites[piston_sprites.size() - 2] != piston_sprites[piston_sprites.size() - 1])):
-			cont = true
+
+		cont = player_moved or objects_moved or wire_changed
+
 		for child in get_tile_children():
 			child.add_animation()
 
