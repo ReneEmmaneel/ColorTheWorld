@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://tileSet/elec/WireTileSet.tres" type="TileSet" id=1]
-[ext_resource path="res://logic/grid/Wire.gd" type="Script" id=2]
-[ext_resource path="res://levels/BaseLevel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://levels/BaseLevel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://logic/grid/Wire.gd" type="Script" id=3]
 
-[node name="TimingSnowball" instance=ExtResource( 3 )]
+[node name="TimingSnowball" instance=ExtResource( 2 )]
 bgColor = Color( 0, 0, 0, 1 )
 width = 19
 height = 13
-level_id = 61
+level_id = 64
 
 [node name="Wire1" parent="." index="2"]
 tile_data = PoolIntArray( 65542, 0, 3, 65546, 0, 65537, 65547, 0, 65536, 65548, 0, 65536, 65549, 0, 65536, 65550, 0, 65538, 131078, 0, 0, 131082, 0, 0, 131086, 0, 0, 196614, 0, 0, 196618, 0, 131075, 196620, 0, 3, 196622, 0, 0, 262150, 0, 131075, 262152, 0, 4, 262153, 0, 65540, 262156, 0, 131075, 262158, 0, 131075, 262161, 0, 3, 327696, 0, 4, 327697, 0, 196608, 393233, 0, 0, 458752, 0, 4, 458753, 0, 65536, 458754, 0, 65536, 458755, 0, 65536, 458756, 0, 65536, 458757, 0, 65536, 458758, 0, 65536, 458759, 0, 65536, 458760, 0, 65536, 458761, 0, 65536, 458762, 0, 65536, 458763, 0, 65536, 458764, 0, 65536, 458765, 0, 65536, 458766, 0, 65536, 458767, 0, 65536, 458768, 0, 65536, 458769, 0, 131074 )
@@ -17,7 +17,7 @@ tile_data = PoolIntArray( 65542, 0, 3, 65546, 0, 65537, 65547, 0, 65536, 65548, 
 tile_set = ExtResource( 1 )
 format = 1
 tile_data = PoolIntArray( 196616, 0, 4, 196617, 0, 65540, 196626, 0, 3, 262162, 0, 0, 327698, 0, 0, 393234, 0, 0, 458770, 0, 0, 524288, 0, 4, 524289, 0, 65536, 524290, 0, 65536, 524291, 0, 65536, 524292, 0, 65536, 524293, 0, 65536, 524294, 0, 65536, 524295, 0, 65536, 524296, 0, 65536, 524297, 0, 65536, 524298, 0, 65536, 524299, 0, 65536, 524300, 0, 65536, 524301, 0, 65536, 524302, 0, 65536, 524303, 0, 65536, 524304, 0, 65536, 524305, 0, 65536, 524306, 0, 131074 )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="BackLayer" parent="." index="4"]
 tile_data = PoolIntArray( 65542, 10, 0, 196616, 10, 0, 196618, 10, 0, 196626, 10, 0, 262152, 10, 0, 262156, 10, 0, 262161, 10, 0 )

@@ -5,7 +5,7 @@
 [node name="BaseLevel" instance=ExtResource( 1 )]
 width = 7
 height = 4
-level_id = 47
+level_id = 45
 
 [node name="BackLayer" parent="." index="3"]
 tile_data = PoolIntArray( 0, 8, 0, 1, 8, 0, 2, 8, 0, 3, 8, 0, 4, 8, 0, 5, 8, 0, 6, 8, 0, 65536, 8, 0, 65537, 8, 0, 65538, 8, 0, 65539, 8, 0, 65540, 8, 0, 65541, 8, 0, 65542, 8, 0 )

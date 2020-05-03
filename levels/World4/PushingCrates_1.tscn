@@ -5,7 +5,7 @@
 [node name="PushingCrates" instance=ExtResource( 1 )]
 width = 17
 height = 7
-level_id = 62
+level_id = 61
 
 [node name="Wire1" parent="." index="2"]
 tile_data = PoolIntArray( 0, 0, 3, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, 262144, 0, 131073, 262145, 0, 65536, 262146, 0, 65540 )
