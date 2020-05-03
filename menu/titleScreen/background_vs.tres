@@ -1,9 +1,19 @@
-[gd_resource type="VisualShader" load_steps=6 format=2]
+[gd_resource type="VisualShader" load_steps=9 format=2]
+
+[ext_resource path="res://menu/titleScreen/new_noisetexture.tres" type="Texture" id=1]
 
 [sub_resource type="VisualShaderNodeScalarOp" id=1]
 output_port_for_preview = 0
 default_input_values = [ 0, 0.0, 1, 10.0 ]
 operator = 3
+
+[sub_resource type="VisualShaderNodeTexture" id=6]
+output_port_for_preview = 0
+texture = ExtResource( 1 )
+
+[sub_resource type="VisualShaderNodeVectorOp" id=7]
+output_port_for_preview = 0
+operator = 2
 
 [sub_resource type="VisualShaderNodeColorConstant" id=2]
 output_port_for_preview = 0
@@ -23,6 +33,7 @@ operator = 3
 
 [resource]
 code = "shader_type canvas_item;
+uniform sampler2D tex_frg_11;
 
 
 
@@ -32,6 +43,11 @@ void vertex() {
 }
 
 void fragment() {
+// Texture:11
+	vec4 tex_frg_11_read = texture(tex_frg_11, UV.xy);
+	vec3 n_out11p0 = tex_frg_11_read.rgb;
+	float n_out11p1 = tex_frg_11_read.a;
+
 // Color:2
 	vec3 n_out2p0 = vec3(0.066406, 0.256042, 1.000000);
 	float n_out2p1 = 1.000000;
@@ -49,8 +65,11 @@ void fragment() {
 // ColorOp:6
 	vec3 n_out6p0 = max(n_out2p0, vec3(n_out5p0));
 
+// VectorOp:12
+	vec3 n_out12p0 = n_out11p0 * n_out6p0;
+
 // Output:0
-	COLOR.rgb = n_out6p0;
+	COLOR.rgb = n_out12p0;
 
 }
 
@@ -59,10 +78,10 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -416.423, 78.5 )
+graph_offset = Vector2( 571.345, -157 )
 mode = 1
 flags/light_only = false
-nodes/fragment/0/position = Vector2( 1000, 360 )
+nodes/fragment/0/position = Vector2( 1360, 180 )
 nodes/fragment/2/node = SubResource( 2 )
 nodes/fragment/2/position = Vector2( 540, 320 )
 nodes/fragment/3/node = SubResource( 3 )
@@ -70,7 +89,11 @@ nodes/fragment/3/position = Vector2( -300, 300 )
 nodes/fragment/5/node = SubResource( 4 )
 nodes/fragment/5/position = Vector2( 300, 320 )
 nodes/fragment/6/node = SubResource( 5 )
-nodes/fragment/6/position = Vector2( 760, 300 )
+nodes/fragment/6/position = Vector2( 720, 320 )
 nodes/fragment/10/node = SubResource( 1 )
 nodes/fragment/10/position = Vector2( -40, 300 )
-nodes/fragment/connections = PoolIntArray( 5, 0, 6, 1, 3, 0, 10, 0, 10, 0, 5, 0, 2, 0, 6, 0, 6, 0, 0, 0 )
+nodes/fragment/11/node = SubResource( 6 )
+nodes/fragment/11/position = Vector2( 740, -40 )
+nodes/fragment/12/node = SubResource( 7 )
+nodes/fragment/12/position = Vector2( 1020, 200 )
+nodes/fragment/connections = PoolIntArray( 5, 0, 6, 1, 3, 0, 10, 0, 10, 0, 5, 0, 2, 0, 6, 0, 11, 0, 12, 0, 6, 0, 12, 1, 12, 0, 0, 0 )
