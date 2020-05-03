@@ -10,7 +10,7 @@ func extend_piston():
 	var Grid = get_parent()
 	var pushable = true
 	for child in Grid.get_cell_child(world_pos + direction_facing):
-		if child.check_currently_pushable(direction_facing):
+		if child.check_currently_pushable(direction_facing, false):
 			child.move_direction = direction_facing
 			child.move(direction_facing)
 		else:

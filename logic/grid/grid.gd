@@ -348,7 +348,6 @@ func update_wires():
 func move(input_direction):
 	for child in get_tile_children():
 		child.add_prev_position()
-	move_children(input_direction)
 
 	var wires_sprites = []
 	var elec_gate_sprites = []
@@ -357,6 +356,8 @@ func move(input_direction):
 	wires_sprites.append(elec_sprite[0])
 	elec_gate_sprites.append(elec_sprite[1])
 	piston_sprites.append(elec_sprite[2])
+
+	move_children(input_direction)
 
 	for child in get_tile_children():
 		child.add_animation()
@@ -370,14 +371,18 @@ func move(input_direction):
 		if player_moved:
 			move_children(input_direction)
 		var objects_moved = move_objects(input_direction, player_moved)
-		cont = player_moved or objects_moved
-		for child in get_tile_children():
-			child.add_animation()
 		color_blue()
 		elec_sprite = update_wires()
 		wires_sprites.append(elec_sprite[0])
 		elec_gate_sprites.append(elec_sprite[1])
 		piston_sprites.append(elec_sprite[2])
+		cont = player_moved or objects_moved
+		if ((wires_sprites[wires_sprites.size() - 2] != wires_sprites[wires_sprites.size() - 1]) ||
+		   (elec_gate_sprites[elec_gate_sprites.size() - 2] != elec_gate_sprites[elec_gate_sprites.size() - 1]) ||
+		   (piston_sprites[piston_sprites.size() - 2] != piston_sprites[piston_sprites.size() - 1])):
+			cont = true
+		for child in get_tile_children():
+			child.add_animation()
 
 	for child in get_tile_children():
 		if child.record_last_move:

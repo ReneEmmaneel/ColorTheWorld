@@ -22,7 +22,7 @@ tile_data = PoolIntArray( 262123, 0, 3, 327659, 0, 0, 393195, 0, 0, 458731, 0, 0
 tile_data = PoolIntArray( 262123, 10, 0 )
 
 [node name="TileMap" parent="." index="4"]
-tile_data = PoolIntArray( 262122, 0, 0, 196608, 1, 0, 196629, 0, 0, 196631, 3, 0, 196645, 9, 0, 524271, 11, 0, 720888, 2, 0 )
+tile_data = PoolIntArray( 262122, 0, 0, 262127, 3, 0, 196608, 1, 0, 196629, 0, 0, 196631, 3, 0, 196645, 9, 0, 524271, 11, 0, 720888, 2, 0 )
 
 [node name="Camera2D" parent="." index="5"]
 visible = false

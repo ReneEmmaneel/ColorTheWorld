@@ -88,8 +88,8 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Menu"]
-margin_right = 537.0
-margin_bottom = 59.0
+margin_right = 545.0
+margin_bottom = 67.0
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0.105882, 0.0196078, 0.0196078, 1 )
@@ -98,15 +98,15 @@ align = 1
 uppercase = true
 
 [node name="Buttons" type="HBoxContainer" parent="Menu"]
-margin_top = 129.0
-margin_right = 537.0
-margin_bottom = 389.0
+margin_top = 137.0
+margin_right = 545.0
+margin_bottom = 397.0
 size_flags_vertical = 3
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Menu/Buttons"]
-margin_left = 168.0
-margin_right = 368.0
+margin_left = 172.0
+margin_right = 372.0
 margin_bottom = 260.0
 custom_constants/separation = 20
 
