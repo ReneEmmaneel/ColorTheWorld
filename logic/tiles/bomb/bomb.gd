@@ -25,3 +25,8 @@ func moved_into(prev_obj, direction):
 		self.remove_obj()
 	else:
 		move(direction)
+
+func explode():
+	if $AnimationPlayer:
+		$AnimationPlayer.play("Explosion")
+	music.play_sound("explosion")

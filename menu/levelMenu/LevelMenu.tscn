@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://menu/levelMenu/LevelMenu.gd" type="Script" id=1]
 [ext_resource path="res://menu/button/ContinueLevelButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://menu/button/MapButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://fonts/Ultra/Ultra-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://menu/button/MuteButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://menu/button/MuteSoundsButton.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -75,3 +76,7 @@ save_level = true
 [node name="Mute" parent="Pos/Menu" instance=ExtResource( 5 )]
 margin_top = 140.0
 margin_bottom = 190.0
+
+[node name="MuteSoundsButton" parent="Pos/Menu" instance=ExtResource( 6 )]
+margin_top = 210.0
+margin_bottom = 260.0

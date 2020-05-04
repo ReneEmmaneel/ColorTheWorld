@@ -20,6 +20,10 @@ run/main_scene="res://menu/titleScreen/TitleScreen.tscn"
 config/icon="res://icon.png"
 config/version="0.0.1"
 
+[audio]
+
+default_bus_layout="res://new_audiobuslayout.tres"
+
 [autoload]
 
 global="*res://globals/global.gd"

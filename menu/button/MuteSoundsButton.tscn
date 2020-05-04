@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://menu/button/MenuButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://menu/button/MuteSoundsButton.gd" type="Script" id=2]
+
+[node name="MuteSoundsButton" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Label" parent="." index="0"]
+text = "Toggle sounds"
+[connection signal="pressed" from="." to="." method="_on_MuteSoundsButton_pressed"]

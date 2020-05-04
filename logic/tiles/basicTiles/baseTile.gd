@@ -168,6 +168,8 @@ func back_to_prev_position():
 					remove_obj()
 				else:
 					readd_obj()
+					if type == global.Tiles.BOMB:
+						$Explosion.visible = false
 			if open != prev[2]:
 				open = prev[2]
 				set_sprite(prev[2])
@@ -265,10 +267,11 @@ func animate_step():
 		var animation_step = get_and_remove_first_from_queue()
 		if !animation_step:
 			return
+		var hide = false
 
 		while animation_step != null and animation_step.instant_anim:
 			if animation_step.type == HIDE:
-				get_sprite().hide()
+				hide = true
 			elif animation_step.type == BECOME_PLAYER:
 				self.change_sprite_to_blue()
 			animation_step = get_and_remove_first_from_queue()
@@ -278,6 +281,20 @@ func animate_step():
 			var new_pos = animation_step.new_pos
 			if prev_pos != null and new_pos != null:
 				animate_movement(prev_pos, new_pos, false)
+
+		if hide:
+			var t = Timer.new()
+			t.set_wait_time(global.animation_speed)
+			t.set_one_shot(true)
+			self.add_child(t)
+			t.start()
+			yield(t, "timeout")
+
+			get_sprite().hide()
+			self.explode()
+
+func explode():
+	pass
 
 func change_sprite_to_blue():
 	pass
