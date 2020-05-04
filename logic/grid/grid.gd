@@ -128,11 +128,11 @@ func _process(_delta):
 
 func start_move(input_direction):
 	if check_move(input_direction):
-		music.play_sound("move")
 		move(input_direction)
 	check_camera_pos()
 
 func win():
+	music.play_sound("win")
 	won = true
 	for child in get_tile_children():
 		if child.is_player():

@@ -1,12 +1,15 @@
 extends Node
 
 var is_playing = true
+var walk_sounds
+var curr_walk = 0
 
 func _ready():
 	if !global.debug_start_muted:
 		$MusicWorldmap.play(0)
 	else:
 		is_playing = false
+	walk_sounds = [$SoundMove]
 
 func _on_AudioStreamPlayer_finished():
 	if is_playing:
@@ -29,7 +32,11 @@ func toggle_sound():
 func play_sound(sound):
 	match sound:
 		"move":
-			if false:
-				$SoundMove.play() #sounds kinda bad
+			walk_sounds[curr_walk].play()
+			curr_walk = (curr_walk + 1) % walk_sounds.size()
 		"explosion":
 			$Explosion.play()
+		"door":
+			$Door.play()
+		"win":
+			$Win.play()

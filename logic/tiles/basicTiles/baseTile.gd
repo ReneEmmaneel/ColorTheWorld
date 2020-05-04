@@ -283,6 +283,10 @@ func animate_step():
 				animate_movement(prev_pos, new_pos, false)
 
 		if hide:
+			if type == global.Tiles.DOOR:
+				music.play_sound("door")
+			elif type == global.Tiles.BOMB:
+				music.play_sound("explosion")
 			var t = Timer.new()
 			t.set_wait_time(global.animation_speed)
 			t.set_one_shot(true)

@@ -29,4 +29,3 @@ func moved_into(prev_obj, direction):
 func explode():
 	if $AnimationPlayer:
 		$AnimationPlayer.play("Explosion")
-	music.play_sound("explosion")
