@@ -81,6 +81,9 @@ func quit_game():
 	save()
 	get_tree().quit()
 
+func world_beaten():
+	pass
+
 func level_scenes_to_list(path):
 	var levels = []
 	var dir = Directory.new()

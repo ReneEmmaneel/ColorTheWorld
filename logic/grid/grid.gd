@@ -133,25 +133,45 @@ func start_move(input_direction):
 	check_camera_pos()
 
 func win():
-	music.play_sound("win")
-	won = true
-	for child in get_tile_children():
-		if child.is_player():
-			child.animate_win()
-	set_process(false)
-	var t = Timer.new()
-	t.set_wait_time(2)
-	t.set_one_shot(true)
-	self.add_child(t)
-	t.start()
+	if get_parent().is_world_level:
+		music.play_sound("win")
+		for child in get_tile_children():
+			if child.is_player():
+				child.animate_win()
 
-	yield(t, "timeout")
+		set_process(false)
+		var t = Timer.new()
+		t.set_wait_time(2)
+		t.set_one_shot(true)
+		self.add_child(t)
+		t.start()
+	
+		yield(t, "timeout")
+	
+		t.queue_free()
 
-	t.queue_free()
-
-	var level = get_parent().get_level()
-	global.level_beaten(level)
-	get_tree().change_scene("res://worldMap/WorldMap.tscn")
+		global.world_beaten()
+		get_tree().change_scene("res://menu/gamewinScreen/gamewinScreen.tscn")
+	else:
+		music.play_sound("win")
+		won = true
+		for child in get_tile_children():
+			if child.is_player():
+				child.animate_win()
+		set_process(false)
+		var t = Timer.new()
+		t.set_wait_time(2)
+		t.set_one_shot(true)
+		self.add_child(t)
+		t.start()
+	
+		yield(t, "timeout")
+	
+		t.queue_free()
+	
+		var level = get_parent().get_level()
+		global.level_beaten(level)
+		get_tree().change_scene("res://worldMap/WorldMap.tscn")
 
 func check_won():
 	for child in get_tile_children():
@@ -426,7 +446,7 @@ func move(input_direction):
 
 	update_player_sprites()
 
-	if check_won() && !get_parent().is_world_level:
+	if check_won():
 		win()
 
 func get_input_direction():
