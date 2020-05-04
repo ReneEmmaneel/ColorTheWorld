@@ -51,6 +51,7 @@ func move(direction):
 #the standard function does nothing special,
 #and just calls the moved_into function from the receiving tile_obj
 func move_into(tile_obj, direction):
+	tile_obj.move_direction = move_direction if move_direction != null else direction
 	tile_obj.moved_into(self, direction)
 
 func moved_into(prev_obj, direction):

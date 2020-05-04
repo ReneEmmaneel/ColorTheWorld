@@ -7,7 +7,7 @@
 [node name="TimingSnowball" instance=ExtResource( 2 )]
 bgColor = Color( 0, 0, 0, 1 )
 width = 19
-height = 13
+height = 11
 level_id = 64
 
 [node name="Wire1" parent="." index="2"]
