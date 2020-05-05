@@ -94,7 +94,9 @@ margin_bottom = 67.0
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0.105882, 0.0196078, 0.0196078, 1 )
-text = "color the world"
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+custom_constants/shadow_as_outline = 6
+text = "Get Together"
 align = 1
 uppercase = true
 
