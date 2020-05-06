@@ -3,5 +3,6 @@
 [ext_resource path="res://fonts/Ultra/Ultra-Regular.ttf" type="DynamicFontData" id=1]
 
 [resource]
-outline_color = Color( 0, 0, 0, 1 )
+size = 42
+outline_size = 4
 font_data = ExtResource( 1 )

@@ -1,18 +1,104 @@
-[gd_scene format=2]
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://menu/gamewinScreen/gamewinScreen.gd" type="Script" id=1]
+[ext_resource path="res://menu/button/TitlescreenButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://fonts/Ultra/Ultra-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/Ultra/Ultra_Regular.tres" type="DynamicFont" id=4]
+[ext_resource path="res://tileSet/level/blue.png" type="Texture" id=5]
+
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 2
+emission_box_extents = Vector3( 1000, 0, 0 )
+flag_disable_z = true
+direction = Vector3( 0, 1, 0 )
+spread = 42.52
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.3
+angular_velocity = 100.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 2.0
+scale_random = 0.9
+
+[sub_resource type="DynamicFont" id=1]
+size = 62
+outline_size = 4
+font_data = ExtResource( 3 )
 
 [node name="gamewinScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-rect_scale = Vector2( 5, 5 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "Congrats!!!!1111!!!"
+[node name="Pos" type="ReferenceRect" parent="."]
+margin_right = 2040.0
+margin_bottom = 1050.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ColorRect" type="ColorRect" parent="Pos"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 40.0
+color = Color( 0.54902, 0.52549, 0.52549, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Particles2D" type="Particles2D" parent="Pos"]
+position = Vector2( 1004.22, -44.6322 )
+amount = 25
+lifetime = 15.0
+visibility_rect = Rect2( 0, 0, 1000, 200 )
+process_material = SubResource( 2 )
+texture = ExtResource( 5 )
+
+[node name="Congrats" type="Label" parent="Pos"]
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 0.3
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Congratulations!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Pos"]
+anchor_top = 0.6
+anchor_right = 1.0
+anchor_bottom = 0.8
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Levels beaten: 34/40"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="Pos"]
+anchor_left = 0.4
+anchor_top = 0.8
+anchor_right = 0.6
+anchor_bottom = 1.0
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitlescreenButton" parent="Pos/Menu" instance=ExtResource( 2 )]
+margin_right = 408.0
+margin_bottom = 63.0
+scene_to_load = "res://menu/titleScreen/TitleScreen.tscn"

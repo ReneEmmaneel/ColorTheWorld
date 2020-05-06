@@ -65,19 +65,20 @@ __meta__ = {
 }
 
 [node name="BackToWorldmapButton" parent="Pos/Menu" instance=ExtResource( 2 )]
+margin_bottom = 63.0
 
 [node name="ContinueGameButton" parent="Pos/Menu" instance=ExtResource( 3 )]
-margin_top = 70.0
-margin_bottom = 120.0
+margin_top = 83.0
+margin_bottom = 146.0
 
 [node name="ResetWorldButton" parent="Pos/Menu" instance=ExtResource( 6 )]
-margin_top = 140.0
-margin_bottom = 190.0
+margin_top = 166.0
+margin_bottom = 229.0
 
 [node name="Mute" parent="Pos/Menu" instance=ExtResource( 5 )]
-margin_top = 210.0
-margin_bottom = 260.0
+margin_top = 249.0
+margin_bottom = 312.0
 
 [node name="MuteSoundsButton" parent="Pos/Menu" instance=ExtResource( 7 )]
-margin_top = 280.0
-margin_bottom = 330.0
+margin_top = 332.0
+margin_bottom = 395.0

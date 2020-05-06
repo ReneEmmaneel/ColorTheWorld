@@ -7,9 +7,9 @@ var last_level = 0
 
 var animation_speed = 0.15
 
-var debug_show_all_levels = true
-var debug_start_muted = true
-var debug_shorcuts = true
+var debug_show_all_levels = false
+var debug_start_muted = false
+var debug_shorcuts = false
 
 var all_level_scenes = []
 
@@ -82,7 +82,8 @@ func quit_game():
 	get_tree().quit()
 
 func world_beaten():
-	pass
+	worldmap_level_save = []
+	save()
 
 func level_scenes_to_list(path):
 	var levels = []
@@ -115,14 +116,16 @@ func level_scenes_to_list(path):
 									var level = load(full_file_name)
 									if level:
 										var level_id = level.instance().level_id
-										levels.append([level_id, full_file_name])
+										if level_id > 0:
+											levels.append([level_id, full_file_name])
 					world_dir.list_dir_end()
 				elif file.ends_with(".tscn"):
 					var full_file_name = path + file
 					var level = load(full_file_name)
 					if level:
 						var level_id = level.instance().level_id
-						levels.append([level_id, full_file_name])
+						if level_id > 0:
+							levels.append([level_id, full_file_name])
 
 	dir.list_dir_end()
 

@@ -8,7 +8,6 @@ func _ready():
 		button.connect("pressed", self, "_on_button_pressed", [button.scene_to_load, button.save_level, button])
 
 func _on_button_pressed(scene_to_load, save_level, button):
-	print(button)
 	if $Pos/Menu/BackToWorldmapButton and button == $Pos/Menu/BackToWorldmapButton:
 		get_parent().get_node("WorldLevel").get_node("TileMap").cancel_pressed()
 		get_parent().cancel_pressed()

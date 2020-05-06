@@ -17,6 +17,8 @@ func cancel_pressed():
 		add_child(menu_instance)
 
 func back_to_titlescreen():
+	global.save_worldmap_level()
+	global.save()
 	get_tree().change_scene("res://menu/titleScreen/TitleScreen.tscn")
 
 func _ready():

@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="ColorTheWorld"
+config/name="Get Together"
 run/main_scene="res://menu/titleScreen/TitleScreen.tscn"
 config/icon="res://icon.png"
 config/version="0.0.1"

@@ -171,6 +171,7 @@ func win():
 	
 		var level = get_parent().get_level()
 		global.level_beaten(level)
+		global.save()
 		get_tree().change_scene("res://worldMap/WorldMap.tscn")
 
 func check_won():

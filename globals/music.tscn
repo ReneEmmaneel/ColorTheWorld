@@ -27,12 +27,16 @@ bus = "Sounds"
 
 [node name="SoundMove2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
+bus = "Sounds"
 
 [node name="SoundMove3" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+bus = "Sounds"
 
 [node name="Door" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+bus = "Sounds"
 
 [node name="Win" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
+bus = "Sounds"
