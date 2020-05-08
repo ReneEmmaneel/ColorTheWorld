@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://levels/BaseLevel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://fonts/Ultra/Ultra-Regular.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 42
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
 
 [node name="Level2" instance=ExtResource( 1 )]
 width = 7
@@ -9,3 +16,16 @@ level_id = 2
 
 [node name="TileMap" parent="." index="4"]
 tile_data = PoolIntArray( 0, 1, 0, 2, 3, 0, 3, 2, 0, 65536, 2, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 131074, 3, 0, 131075, 3, 0, 196608, 2, 0, 262144, 0, 0, 262150, 0, 0 )
+
+[node name="Label" type="Label" parent="." index="8"]
+margin_left = -0.166382
+margin_top = 322.063
+margin_right = 453.834
+margin_bottom = 381.063
+custom_fonts/font = SubResource( 1 )
+text = "Press 'Z' to undo"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -15,14 +15,8 @@ visible = false
 [node name="Foreground" parent="." index="1"]
 visible = false
 
-[node name="Wire1" parent="." index="2"]
-tile_data = PoolIntArray( 262123, 0, 3, 327659, 0, 0, 393195, 0, 0, 458731, 0, 0, 524267, 0, 131073, 524268, 0, 65536, 524269, 0, 65536, 524270, 0, 65536, 524271, 0, 65540 )
-
-[node name="BackLayer" parent="." index="3"]
-tile_data = PoolIntArray( 262123, 10, 0 )
-
 [node name="TileMap" parent="." index="4"]
-tile_data = PoolIntArray( 131070, 1, 0, 262122, 0, 0, 196629, 0, 0, 196631, 3, 0, 196645, 9, 0, 524271, 11, 0, 720888, 2, 0 )
+tile_data = PoolIntArray( 131070, 1, 0, 262130, 5, 0, 196629, 0, 0, 196631, 4, 0, 196645, 9, 0, 720888, 2, 0 )
 
 [node name="Camera2D" parent="." index="5"]
 visible = false

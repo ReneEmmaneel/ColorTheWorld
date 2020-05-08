@@ -57,7 +57,7 @@ __meta__ = {
 
 [node name="Menu" type="VBoxContainer" parent="Pos"]
 anchor_left = 0.4
-anchor_top = 0.4
+anchor_top = 0.3
 anchor_right = 0.6
 anchor_bottom = 1.0
 custom_constants/separation = 20
@@ -66,17 +66,20 @@ __meta__ = {
 }
 
 [node name="ContinueLevelButton" parent="Pos/Menu" instance=ExtResource( 2 )]
+margin_bottom = 63.0
 
 [node name="MapButton" parent="Pos/Menu" instance=ExtResource( 3 )]
-margin_top = 70.0
-margin_bottom = 120.0
+margin_top = 83.0
+margin_bottom = 146.0
 scene_to_load = "res://worldMap/WorldMap.tscn"
 save_level = true
 
 [node name="Mute" parent="Pos/Menu" instance=ExtResource( 5 )]
-margin_top = 140.0
-margin_bottom = 190.0
+margin_top = 166.0
+margin_bottom = 229.0
 
 [node name="MuteSoundsButton" parent="Pos/Menu" instance=ExtResource( 6 )]
-margin_top = 210.0
-margin_bottom = 260.0
+margin_top = 249.0
+margin_bottom = 312.0
+
+[node name="Viewport" type="Viewport" parent="."]

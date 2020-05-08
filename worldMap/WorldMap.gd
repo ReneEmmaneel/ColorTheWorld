@@ -12,7 +12,7 @@ func cancel_pressed():
 		remove_child(menu_instance)
 	else:
 		paused = true
-		var menu = load("res://menu/worldMenu/WorldMenu.tscn")
+		var menu = preload("res://menu/worldMenu/WorldMenu.tscn")
 		menu_instance = menu.instance()
 		add_child(menu_instance)
 
@@ -20,6 +20,7 @@ func back_to_titlescreen():
 	global.save_worldmap_level()
 	global.save()
 	get_tree().change_scene("res://menu/titleScreen/TitleScreen.tscn")
+
 
 func _ready():
 	$Fade.play("FadeIn")

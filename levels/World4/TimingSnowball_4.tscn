@@ -5,7 +5,6 @@
 [ext_resource path="res://logic/grid/Wire.gd" type="Script" id=3]
 
 [node name="TimingSnowball" instance=ExtResource( 2 )]
-bgColor = Color( 0, 0, 0, 1 )
 width = 19
 height = 11
 level_id = 64

@@ -12,7 +12,6 @@ gradient = SubResource( 1 )
 width = 1200
 
 [node name="Level20" instance=ExtResource( 1 )]
-bgColor = Color( 0, 0, 0, 1 )
 width = 13
 height = 6
 level_id = 30

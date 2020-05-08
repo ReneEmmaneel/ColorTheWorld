@@ -34,6 +34,7 @@ music="*res://globals/music.tscn"
 window/size/width=2048
 window/size/height=1052
 window/size/fullscreen=true
+window/stretch/aspect="keep"
 
 [input]
 

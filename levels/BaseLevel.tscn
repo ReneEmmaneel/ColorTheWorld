@@ -74,7 +74,6 @@ anims/FadeIn = SubResource( 1 )
 z_index = 100
 
 [node name="FadeRect" type="ColorRect" parent="FadeRectParent"]
-visible = false
 margin_left = -2000.0
 margin_top = -2000.0
 margin_right = 2000.0

@@ -86,7 +86,7 @@ func cancel_pressed():
 	else:
 		paused = true
 		if !get_parent().is_world_level:
-			var menu = load("res://menu/levelMenu/LevelMenu.tscn")
+			var menu = preload("res://menu/levelMenu/LevelMenu.tscn")
 			menu_instance = menu.instance()
 			add_child(menu_instance)
 

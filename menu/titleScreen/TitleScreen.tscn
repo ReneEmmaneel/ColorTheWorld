@@ -79,11 +79,6 @@ __meta__ = {
 [node name="Menu" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 100.0
-margin_top = 75.0
-margin_right = -100.0
-margin_bottom = -75.0
-custom_constants/separation = 70
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -101,37 +96,36 @@ align = 1
 uppercase = true
 
 [node name="Buttons" type="HBoxContainer" parent="Menu"]
-margin_top = 171.0
+margin_top = 105.0
 margin_right = 685.0
-margin_bottom = 566.0
+margin_bottom = 436.0
 size_flags_vertical = 3
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Menu/Buttons"]
 margin_left = 242.0
 margin_right = 442.0
-margin_bottom = 395.0
-custom_constants/separation = 20
+margin_bottom = 331.0
 
 [node name="StartGameButton" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 3 )]
 margin_bottom = 63.0
 theme = null
 
 [node name="NewGameButton" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 7 )]
-margin_top = 83.0
-margin_bottom = 146.0
+margin_top = 67.0
+margin_bottom = 130.0
 
 [node name="Mute" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 5 )]
-margin_top = 166.0
-margin_bottom = 229.0
+margin_top = 134.0
+margin_bottom = 197.0
 theme = null
 
 [node name="MuteSoundsButton" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 9 )]
-margin_top = 249.0
-margin_bottom = 312.0
+margin_top = 201.0
+margin_bottom = 264.0
 
 [node name="QuitGameButton" parent="Menu/Buttons/VBoxContainer" instance=ExtResource( 4 )]
-margin_top = 332.0
-margin_bottom = 395.0
+margin_top = 268.0
+margin_bottom = 331.0
 theme = null
 [connection signal="pressed" from="Menu/Buttons/VBoxContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]

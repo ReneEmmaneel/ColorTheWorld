@@ -6,7 +6,7 @@
 [ext_resource path="res://fonts/Ultra/Ultra_Regular.tres" type="DynamicFont" id=4]
 [ext_resource path="res://tileSet/level/blue.png" type="Texture" id=5]
 
-[sub_resource type="ParticlesMaterial" id=2]
+[sub_resource type="ParticlesMaterial" id=1]
 emission_shape = 2
 emission_box_extents = Vector3( 1000, 0, 0 )
 flag_disable_z = true
@@ -24,7 +24,7 @@ angle_random = 1.0
 scale = 2.0
 scale_random = 0.9
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 size = 62
 outline_size = 4
 font_data = ExtResource( 3 )
@@ -59,14 +59,14 @@ position = Vector2( 1004.22, -44.6322 )
 amount = 25
 lifetime = 15.0
 visibility_rect = Rect2( 0, 0, 1000, 200 )
-process_material = SubResource( 2 )
+process_material = SubResource( 1 )
 texture = ExtResource( 5 )
 
 [node name="Congrats" type="Label" parent="Pos"]
 anchor_top = 0.1
 anchor_right = 1.0
 anchor_bottom = 0.3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Congratulations!"
 align = 1
